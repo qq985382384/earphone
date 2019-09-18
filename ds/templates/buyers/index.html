@@ -1,0 +1,78 @@
+﻿{% extends 'buyers/base.html' %}
+
+{% block title %}耳机详情{% endblock %}
+{% block content %}
+	<!-- Content -->
+	<div class="content-right">
+		<!-- Slider -->
+		<div id="mycarousel" class="carousel slide" data-ride="carousel">
+			<!-- Indicators -->
+			<ol class="carousel-indicators text-xs-center text-right">
+				<li data-target="#mycarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#mycarousel" data-slide-to="1"></li>
+				<li data-target="#mycarousel" data-slide-to="2"></li>
+			</ol>
+
+			<!-- Slides -->
+			<div class="carousel-inner" role="listbox">
+				<div class="item">
+					<img src="/static/buyers/img/slider/slide1.jpg" alt="" />
+
+					<div class="carousel-caption text-xs-center text-sm-center text-md-center text-left">
+						<h1>Staroudio</h1>
+
+						<p class="text-gray m-b-80">Introducing the new ST-O S1000 Purple Edition</p>
+
+						<a href="#" class="btn btn-success"><i class="fas fa-rocket"></i>&nbsp; 查看详情</a>
+
+						<span class="m-r-30 hidden-xs"></span>
+						<span class="m-b-30 visible-xs"></span>
+
+						<a href="#" class="btn btn-success"><i class="fas fa-shopping-bag"></i>&nbsp; Buy Now</a>
+					</div>
+				</div>
+
+				<div class="item">
+					<img src="/static/buyers/img/slider/slide2.jpg" alt="" />
+
+					<div class="carousel-caption text-xs-center text-sm-center text-md-center text-left">
+						<h1>Gaming Collection</h1>
+
+						<p class="text-primary m-b-80">Checkout our gaming collection</p>
+
+						<a href="#" class="btn btn-success"><i class="fas fa-rocket"></i>&nbsp; Explore</a>
+					</div>
+				</div>
+
+				<div class="item">
+					<img src="/static/buyers/img/slider/slide3.jpg" alt="" />
+
+					<div class="carousel-caption text-xs-center text-sm-center text-md-center text-left">
+						<h1>Wireless Collection</h1>
+
+						<p class="text-white m-b-80">Introducing the new Wi-Fi headphones collection</p>
+
+						<a href="#" class="btn btn-success"><i class="fas fa-rocket"></i>&nbsp; Explore</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Controls -->
+			<a href="#mycarousel" class="left carousel-control hidden-xs" role="button" data-slide="prev">
+				<div class="carousel-arrow-left">
+					<i class="fas fa-angle-left fa-3x"></i>
+					<span class="sr-only">Previous</span>
+				</div>
+			</a>
+
+			<a href="#mycarousel" class="right carousel-control hidden-xs" role="button" data-slide="next">
+				<div class="carousel-arrow-right">
+					<i class="fas fa-angle-right fa-3x"></i>
+					<span class="sr-only">Next</span>
+				</div>
+			</a>
+		</div>
+		<!-- Slider -->
+	</div>
+	<!-- Content -->
+{% endblock %}

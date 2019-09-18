@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>全球生鲜卖家管理后台</title>
+    <link rel="stylesheet" href="../../static/shops/css/font.css">
+    <link rel="stylesheet" href="../../static/shops/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/shops/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../static/shops/js/xadmin.js"></script>
+  </head>
+  
+  <body class="layui-anim layui-anim-up">
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">商品管理</a>
+        <a href="">商品列表</a>
+      </span>
+    </div>
+    <div class="x-body">
+        {% csrf_token %}
+      <table class="layui-table">
+        <thead>
+          <tr>
+		    <th>商品id</th>
+            <th>商品编号</th>
+            <th>商品名称</th>
+            <th>商品原价</th>
+            <th>商品现价</th>
+            <th>商品库存</th>
+			<th>商品存储方法</th>
+            <th>操作</th>
+			</tr>
+        </thead>
+          {% for good in goods %}
+        <tbody>
+          <tr>
+		    <th>{{ good.id }}</th>
+            <th>{{good.goods_id}}</th>
+            <th><a href="{% url "shops:details" good.id %} " style="text-decoration:none ">{{good.goods_name}}</a></th>
+            <th>{{good.goods_price}}</th>
+            <th>{{good.goods_now_price}}</th>
+            <th>{{good.goods_num}}</th>
+			<th>{{good.goods_content}}</th>
+            <td>
+				<a href="{% url "shops:goodchange" good.id %}">编辑</a> &nbsp; &nbsp;&nbsp;       <a href="{% url "shops:del" good.id %}">删除</a>
+            </td>
+          </tr>
+        </tbody>
+          {% endfor %}
+      </table>
+
+    </div>
+   
+  </body>
+
+</html>
