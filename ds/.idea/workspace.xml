@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="63d06cad-2b61-403b-ad2c-b01edbafa204" name="Default Changelist" comment="update">
-      <change afterPath="$PROJECT_DIR$/templates/buyers/enterorder.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/buyers/enterpay.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Buyers/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Buyers/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Buyers/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Buyers/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/buyers/js/global.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/buyers/js/global.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/buyers/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/buyers/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/buyers/cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/buyers/cart.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/buyers/product-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/buyers/product-details.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -183,7 +176,7 @@
       <workItem from="1568766248732" duration="22626000" />
       <workItem from="1568810703403" duration="6645000" />
       <workItem from="1568854283445" duration="431000" />
-      <workItem from="1568858007769" duration="23653000" />
+      <workItem from="1568858007769" duration="26474000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1568858859734</created>
