@@ -1,4 +1,4 @@
-
+﻿
 from django.shortcuts import render,HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives
 from django.http import JsonResponse
@@ -31,8 +31,19 @@ def product_details(request):
     return render(request,'buyers/product-details.html')
 
 
-def products(request):
-    return render(request,'buyers/products.html')
+def products(request,id):
+    id = int(id)
+    if id == 0:
+        type = {'label':'全部耳机','description':'所有商品，尽情挑选'}
+        goods = Goods.objects.all()
+    else:
+        type = Types.objects.get(id=id)
+        goods = Goods.objects.filter(types=id)
+    data = []
+    for i in goods:
+        img = i.image_set.first().img_path
+        data.append({'img':img,'goods':i})
+    return render(request,'buyers/products.html',{'data':data,'type':type})
 
 @cookieVerify
 def cart(request):
@@ -104,21 +115,26 @@ def sendMessage(request):
 
 def register(request):
     result = {"status": "error", "data": ""}
+
     if request.method == 'POST' and request.POST:
         email = request.POST.get('email')
+        user = Buyer.objects.values_list("email")
         print(email)
+        print(user)
         username = request.POST.get('username')
         message = request.POST.get('message')
         pwd = request.POST.get('password')
-        db_email = EmailValid.objects.filter(email_address=email,times__lt=datetime.datetime.now()).first()
+        db_email = EmailValid.objects.filter(email_address=email).latest('id')
         print(db_email.value)
-        if db_email:
+        if (email,) in user:
+            result['data'] = '该邮箱已经注册'
+        elif db_email:
             if message == db_email.value:
                 now = time.mktime(
                     datetime.datetime.now().timetuple()
                 )
                 db_now = time.mktime(db_email.times.timetuple())
-                if now - db_now > 86400:
+                if now - db_now > 60:
                     result['data'] = '验证码过期'
                     db_email.delete()
                 else:
