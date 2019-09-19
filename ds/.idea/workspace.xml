@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="63d06cad-2b61-403b-ad2c-b01edbafa204" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/ds.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ds.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Buyers/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Buyers/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Buyers/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Buyers/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Shop/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Shop/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/shops/goods_add.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/shops/goods_add.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/shops/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/shops/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/buyers/products.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/buyers/products.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -78,7 +71,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../60/day6" />
+    <property name="last_opened_file_path" value="D:/../60/day6" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -185,6 +178,7 @@
       <workItem from="1568766248732" duration="22626000" />
       <workItem from="1568810703403" duration="6645000" />
       <workItem from="1568854283445" duration="431000" />
+      <workItem from="1568858007769" duration="595000" />
     </task>
     <servers />
   </component>
