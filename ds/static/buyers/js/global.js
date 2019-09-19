@@ -67,6 +67,12 @@ $(document).ready(function()
 		{
 			// Increment
 			$(fieldName).val(currentVal + 1);
+			var goods_allprice = $(this).parent().parent().parent().parent().children('td').eq(4).children('strong');
+			var goods_price = $(this).parent().parent().parent().parent().children('td').eq(2).children('strong').text();
+			var num = $(this).parent().parent().children('input').val();
+			goods_allprice.text(Number(goods_price)*Number(num));
+			var newtoal = Number($('.alltotal').text())+Number(goods_price);
+			$('.alltotal').text(newtoal);
 		}
 		else
 		{
@@ -74,15 +80,13 @@ $(document).ready(function()
 			$(fieldName).val(1);
 		}
 	});
-
 	// This button will decrement the value till 1
-	$("input[name='qty_minus']").on("click", function(e)
+		$("input[name='qty_minus']").on("click", function(e)
 	{
 		e.preventDefault();
 
 		// Get the field name
 		var fieldName = $(this).parent().parent().find("input[name='"+$(this).attr("data-field")+"']");
-
 		// Get its current value
 		var currentVal = parseInt($(fieldName).val());
 
@@ -91,10 +95,18 @@ $(document).ready(function()
 		{
 			// Decrement one
 			$(fieldName).val(currentVal - 1);
+			var goods_allprice = $(this).parent().parent().parent().parent().children('td').eq(4).children('strong');
+			var goods_price = $(this).parent().parent().parent().parent().children('td').eq(2).children('strong').text();
+			var num = $(this).parent().parent().children('input').val();
+			goods_allprice.text(Number(goods_price)*Number(num));
+			var newtoal = Number($('.alltotal').text())-Number(goods_price);
+			$('.alltotal').text(newtoal)
 		}
 		else
 		{
 			// Otherwise put a 1 there
+			var newtoal = Number($('.alltotal').text())-Number(0);
+			$('.alltotal').text(newtoal);
 			$(fieldName).val(1);
 		}
 	});

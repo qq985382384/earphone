@@ -53,10 +53,6 @@ def product_details(request,id):
         data.append({'img':img,'goods':i}) #取出每个商品的信息与图片写入字典
     return render(request,'buyers/product-details.html',locals())
 
-@cookieVerify
-def cart(request):
-    return render(request,'buyers/cart.html',locals())
-
 
 def blogin(request):
     result = {"status": "error", "data": ""}
@@ -167,3 +163,54 @@ def blogout(request):
     response.delete_cookie('username')
     del request.session['username']
     return response
+
+@cookieVerify
+def cart(request):
+    userid = request.COOKIES.get('user_id')
+    buycarGoos = BuyCar.objects.filter(user=userid)
+    alltotal = 0
+    data = []
+    for i in buycarGoos:
+        goods = Goods.objects.filter(id=i.goods_id)
+        total = i.goods_num * i.goods_price
+        alltotal += total
+        data.append({'total':total,'goods':i,'js':goods.goods_id})
+    return render(request,'buyers/cart.html',locals())
+
+def addcart(request,id):
+
+    return None
+
+
+def delcart(request,id):
+    userId = request.COOKIES.get('user_id')
+    goods = BuyCar.objects.get(user=int(userId),id=int(id))
+    goods.delete()
+    return HttpResponseRedirect('/buyers/cart/')
+
+'''
+首先获取商品数量，
+传过来的quantity列表中的总数量，代表购物车里有几个商品，
+顺序与数据库的顺序是一致的，
+通过for循环递增的i，来依次取出数量，存入数据库。
+'''
+def order(request):
+    alltotal = 0
+    data = []
+    userId = request.COOKIES.get('user_id')
+    if request.method == 'POST' and request.POST:
+        count = request.POST.getlist('quantity')
+        for i in range(0,len(count)):
+            buycar = BuyCar.objects.filter(user=userId)[i]
+            buycar.goods_num = count[i]
+            buycar.save()
+            total = int(buycar.goods_price)*int(buycar.goods_num)
+            data.append({'total':total,'goods':buycar})
+            alltotal += total
+
+    return render(request, 'buyers/enterorder.html', locals())
+
+
+def pay(request):
+
+    return None

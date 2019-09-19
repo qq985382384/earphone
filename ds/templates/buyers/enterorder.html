@@ -1,125 +1,168 @@
-﻿{% extends 'buyers/base.html' %}
-
-{% block title %}购物车{% endblock %}
-
+{% extends 'buyers/base.html' %}
+{% load static %}
 {% block content %}
 	<!-- Content -->
-    <script>
-        $(function () {
-            $('.quantity').focus(function () {
-               num1 = $(this).val();
-            });
-
-            $('.quantity').blur(function () {
-                var goods_allprice = $(this).parent().parent().parent().children('td').eq(4).children('strong');
-                var goods_price = $(this).parent().parent().parent().children('td').eq(2).children('strong').text();
-                var num2 = $(this).val();
-
-                if(Number(num2) >= 1){
-                    var num = num2-num1;
-                    goods_allprice.text(Number(goods_price)*Number(num2));
-                    var newtoal = Number($('.alltotal').text())+Number(goods_price)*Number(num);
-                    $('.alltotal').text(newtoal)
-                }
-                else {
-                    num2 = $(this).val(1);
-                    var num=1-num1;
-                    goods_allprice.text(Number(goods_price));
-                    var newtoal = Number($('.alltotal').text())+Number(goods_price)*Number(num);
-                    $('.alltotal').text(newtoal)
-                }
-            })
+ <script>
+        $('#sf').click(function () {
+            var alltotal= $('#alltotal').text();
+            $('#alltotal').text(Number(alltotal)+15)
+        });
+        $('#free').click(function () {
+            var alltotal= $('#alltotal').text();
+            $('#alltotal').text(Number(alltotal)-15)
         })
     </script>
 	<div class="content-right">
 		<div class="container m-t-100 m-b-100">
 			<div class="row">
 				<div class="col-sm-12">
-					<h1 class="text-xs-center">购物车</h1>
+					<h1 class="text-xs-center">检查订单</h1>
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="m-tb-30 text-xs-center">你的订单</h3>
 
+								<table class="table table-hover table-condensed">
+									<tbody>
+                                    {% for data in data %}
+
+										<tr>
+											<td class="col-sm-2 hidden-xs">
+												<a href="#" class="thumbnail m-b-0">
+													<img src="/static/{{ data.goods.goods_picture }}" alt="" />
+												</a>
+											</td>
+
+											<td>{{ data.goods.goods_num }} &nbsp;x&nbsp; {{ dada.goods.goods_name }}</td>
+
+											<td class="text-right">{{ data.total }}RMB</td>
+										</tr>
+                                    {% endfor %}
+									</tbody>
+                                        <tfoot>
+										<tr>
+											<td colspan="2" class="b-t-0 text-right"><h3 class="m-b-0">总计</h3></td>
+											<td  class="b-t-0 text-right"><h3 id="alltotal" class="m-b-0">{{ alltotal }}RMB</h3></td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
 					<div class="separator-one"></div>
 				</div>
+			</div>
 
-				<div class="col-sm-12 m-t-70">
-					<form class="form-horizontal" method="post" action="{% url 'buyers:order' %}">
+			<div class="row m-t-70">
+				<form>
                     {% csrf_token %}
-						<table class="table table-hover">
-							<thead>
-								<tr>
-									<th colspan="2">Product</th>
-									<th class="text-center">Price</th>
-									<th class="text-center">Quantity</th>
-									<th class="text-center">Total</th>
-									<th class="text-center">Action</th>
-								</tr>
-							</thead>
+					<div class="col-xs-12 col-sm-6 col-md-7" style="margin-top: -30px">
 
-							<tbody>
-                            {% for data in data %}
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="m-tb-30 text-xs-center">送货详情</h3>
 
-								<tr>
-									<td class="col-sm-1 hidden-xs">
-										<a href="#" class="thumbnail m-b-0">
-											<img src="/static/buyers/img/products/product3.png" alt="" />
-										</a>
-									</td>
+								<div class="form-group form-group-default required">
+									<label>收货人</label>
+									<input type="text" name="s_name" class="form-control" required />
+								</div>
 
-									<td class="col-sm-4">
-										<h4 class="m-b-5"><a href="#">{{ data.goods.goods_name }}</a></h4>
-										<h6>{{ data.js.goods_id }}</h6>
-									</td>
 
-									<td class="col-sm-2 text-center"><strong>{{ data.goods.goods_price }}</strong></td>
+								<div class="form-group form-group-default required">
+									<label>详细地址</label>
+									<input type="text" name="s_address" class="form-control" required />
+								</div>
 
-									<td class="col-sm-2 text-center">
-										<div class="input-group">
-											<span class="input-group-addon hidden-sm">
-												<input type="button" name="qty_minus" class="btn-qty" value="-" data-field="quantity" />
-											</span>
 
-											<input type="text" name="quantity" class="form-control text-center" value="{{ data.goods.goods_num }}" />
+								<div class="form-group form-group-default">
+									<label>联系方式</label>
+									<input type="text" name="s_phone" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="m-tb-30 text-xs-center">订单备注</h3>
 
-											<span class="input-group-addon hidden-sm">
-												<input type="button" name="qty_plus" class="btn-qty" value="+" data-field="quantity" />
-											</span>
-										</div>
-									</td>
+								<div class="form-group form-group-default">
+									<label>关于你的订单的说明</label>
+									<textarea name="message" class="form-control v-resize" rows="2"></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
 
-									<td class="col-sm-2 text-center"><strong>{{ data.total }}</strong></td>
+					<div class="col-xs-12 col-sm-6 col-md-5">
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="m-xs-t-30 m-b-30 text-xs-center">邮寄方式</h3>
 
-									<td class="col-sm-1 text-center">
-										<a href="{% url 'buyers:delcart' data.goods.id %}" class="btn btn-primary btn-square btn-sm"><i class="fas fa-times"></i></a>
-									</td>
-								</tr>
-                            {% endfor %}
-							</tbody>
+								<div class="form-group form-group-default">
+									<div class="radio">
+										<label>
+											<input type="radio" name="shipping_method" id="free" class="input-radio" value="1" checked />
+											标准邮寄
+										</label>
 
-							<tfoot>
-								<tr>
-									<td colspan="6" class="hidden-xs">&nbsp;</td>
-								</tr>
+										<label class="pull-right">Free</label>
+									</div>
+								</div>
 
-								<tr>
-									<td colspan="3" class="b-t-0">送货和折扣将在结算时计算</td>
-									<td colspan="3" class="b-t-0 text-right"><h3 class="m-b-0">{{ alltotal }}</h3></td>
-								</tr>
+								<div class="form-group form-group-default">
+									<div class="radio">
+										<label>
+											<input type="radio" name="shipping_method" id="sf" class="input-radio" value="2" />
+											顺丰邮寄
+										</label>
 
-								<tr>
-									<td colspan="6" class="b-t-0 hidden-xs">&nbsp;</td>
-								</tr>
+										<label class="pull-right">15.00</label>
+									</div>
+								</div>
+							</div>
+						</div>
 
-								<tr>
-									<td colspan="3" class="b-t-0">
-										<a href="{% url 'buyers:products' 0 %}" class="btn btn-default">继续购物</a>
-									</td>
-									<td colspan="3" class="b-t-0 text-right">
-										<input type="submit" class="btn btn-success"  value="进行结算">
-									</td>
-								</tr>
-							</tfoot>
-						</table>
-					</form>
-				</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="m-tb-30 text-xs-center">付款方式</h3>
+
+								<div class="form-group form-group-default">
+									<div class="radio">
+										<label>
+											<input type="radio" name="payment_method" value="1" checked />
+											支付宝
+										</label>
+									</div>
+								</div>
+
+								<div class="form-group form-group-default">
+									<div class="radio">
+										<label>
+											<input type="radio" name="payment_method" value="2" />
+											微信
+										</label>
+									</div>
+								</div>
+
+								<div class="form-group form-group-default">
+									<div class="radio">
+										<label>
+											<input type="radio" name="payment_method" value="3" />
+											银联
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+
+					<div class="col-xs-12 col-sm-12 col-md-12 text-center">
+						<div class="separator-two m-b-30"></div>
+
+						<button type="submit" class="btn btn-success"><i class="fas fa-shopping-bag"></i>&nbsp; 去支付订单</button>
+
+						<p class="small m-t-20"><a href="{% url 'buyers:cart' %}"><i class="fas fa-angle-left"></i> 返回购物车</a></p>
+					</div>
+				</form>
 			</div>
 		</div>
 
@@ -139,7 +182,7 @@
 										<i class="far fa-building"></i>&nbsp; 12 Rock Rd, VA 22066, USA
 									</li>
 									<li>
-										<i class="fas fa-mobile-alt"></i>&nbsp; <a href="">+1 0123-456.789</a>
+										<i class="fas fa-mobile-alt"></i>&nbsp; <a href="tel:0010123456789">+1 0123-456.789</a>
 									</li>
 									<li>
 										<i class="far fa-envelope"></i>&nbsp; <a href="mailto:info@company.com">info@company.com</a>
@@ -265,5 +308,4 @@
 		<!-- Footer -->
 	</div>
 	<!-- Content -->
-
 {% endblock %}
