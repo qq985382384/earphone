@@ -1,5 +1,6 @@
 ﻿import os
 
+from django.db.models import Count
 from django.shortcuts import render,HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives
 from django.http import JsonResponse, HttpResponse
@@ -29,7 +30,10 @@ def cookieVerify(fun):
 
 
 def index(request):
-    return render(request,'buyers/index.html')
+    userid = request.COOKIES.get('user_id')
+    count = BuyCar.objects.filter(user_id=userid).aggregate(num=Count('user_id'))
+    allcart = count['num']
+    return render(request,'buyers/index.html',locals())
 
 
 def products(request,id):
@@ -255,7 +259,7 @@ def pay(request):
         order.total=alltotal
         order.user = Buyer.objects.get(id=userId)
         order.order_address = address
-
+        order.save()
         #订单商品
         for good in goods_list:  #循环保存订单中的商品
             g = good["goods"]
