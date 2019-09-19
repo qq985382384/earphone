@@ -101,6 +101,9 @@
                   autocomplete="off" class="layui-input">
               </div>
           </div>
+        {% if dotype == "change" %}
+
+        {% else %}
 		  <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label" >
                   <span class="x-red">*</span>商品缩略图
@@ -110,6 +113,7 @@
                   autocomplete="off" class="layui-input">
               </div>
           </div>
+        {% endif %}
 		  <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
                   <span class="x-red">*</span>配送地址

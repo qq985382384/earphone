@@ -4,6 +4,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.http import JsonResponse
 import random,datetime,time,hashlib
 from Buyers.models import *
+from Shop.models import Goods, Types
 from ds.settings import EMAIL_HOST_USER
 # Create your views here.
 
@@ -29,7 +30,6 @@ def index(request):
 
 def product_details(request):
     return render(request,'buyers/product-details.html')
-
 
 def products(request,id):
     id = int(id)

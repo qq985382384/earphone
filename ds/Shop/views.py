@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 
 from django.shortcuts import render
 
+from Buyers.models import *
 from Shop.models import Seller, Goods, Types, Image
 from ds.settings import MEDIA_ROOT
 from Shop.tools.uploads import FileUpload
@@ -31,6 +32,11 @@ def cookieVerify(fun):
 def index(request):
     goods_num = Goods.objects.aggregate(num = Count('id'))
     num1=goods_num['num']
+    buyers_num = Buyer.objects.aggregate(num=Count('id'))
+    num2=buyers_num['num']
+    order_num = Order.objects.aggregate(num=Count('id'))
+    num3 = order_num['num']
+
 
 
     time = datetime.datetime.now()
