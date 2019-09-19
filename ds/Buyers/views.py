@@ -175,15 +175,24 @@ def cart(request):
     alltotal = 0
     data = []
     for i in buycarGoos:
-        goods = Goods.objects.filter(id=i.goods_id)
+        goods = Goods.objects.get(id=i.goods_id)
         total = i.goods_num * i.goods_price
         alltotal += total
         data.append({'total':total,'goods':i,'js':goods.goods_id})
     return render(request,'buyers/cart.html',locals())
 
 def addcart(request,id):
-
-    return None
+    user = BuyCar()
+    userid = request.COOKIES.get('user_id')
+    usergoods = Goods.objects.get(id=int(id))
+    user.goods_id = usergoods.id
+    user.goods_name = usergoods.goods_name
+    user.goods_picture = usergoods.image_set.first().img_path
+    user.goods_price = usergoods.goods_price
+    user.user_id = userid
+    user.goods_num = 1
+    user.save()
+    return HttpResponseRedirect('/buyers/cart/')
 
 
 def delcart(request,id):
