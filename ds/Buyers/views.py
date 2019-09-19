@@ -272,9 +272,8 @@ def pay(request):
             goods.order = order
             goods.save()
     return render(request,'buyers/enterpay.html',locals())
-
-#支付跳转函数
 from alipay import AliPay
+#支付跳转函数
 def paydata(order_num,count):
     alipay_public_key_string = '''-----BEGIN PUBLIC KEY-----
    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlHEg4KZ9r0o4Wg8Qb6rbYL2sOJ6DfMUYgoj07GCeeXqUUPgeR8CkWHuoB5fyCcOQ8OXDmJBu6kUijjsGK/94vqvW4SPuzgvsCkZv98/ajh/YB8jYrf40NhHoalJ6jUcT6Id9y/BYX4773rVOvR0Eq7r1EFYg8LUch2j/Y6q4HHcolz2La1wHLUxaI16pFj+QGbmb6EK8qE3KJy/A/lBNRhNMJeSTVdkyk42rqsRp0fy74AnEt/xRh7fyr61N/jN7j0/oGSTI/vvtzDib+ezt+JXUJMa6rP1c5pclRyWRQn+ZS5N1IadpgE8m88UR8RTUaZCXsIP0/c4t7KNVgudOAwIDAQAB
