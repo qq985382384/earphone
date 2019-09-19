@@ -5,6 +5,9 @@ class Buyer(models.Model):
     username = models.CharField(max_length = 32)
     email = models.EmailField(blank=True, null=True)
     password = models.CharField(max_length = 32)
+    signature = models.CharField(max_length=200, blank=True, null=True)
+    portrait = models.CharField(max_length=100, blank=True, null=True)
+    isactive = models.IntegerField(blank=True, null=True)
 
 class Address(models.Model):
     address = models.TextField()
