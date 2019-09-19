@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>全球耳机管理后台</title>
+    <link rel="stylesheet" href="../../static/shops/css/font.css">
+    <link rel="stylesheet" href="../../static/shops/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/shops/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../static/shops/js/xadmin.js"></script>
+  </head>
+  
+  <body class="layui-anim layui-anim-up">
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">个人中心</a>
+        <a href="">地址管理</a>
+      </span>
+    </div>
+    <div class="x-body">
+        {% csrf_token %}
+      <table class="layui-table">
+        <thead>
+          <tr>
+		    <th>用户id/用户名</th>
+            <th>收货人</th>
+            <th>手机号</th>
+            <th>地址</th>
+            <th>操作</th>
+			</tr>
+        </thead>
+          {% for add in address %}
+        <tbody>
+          <tr>
+		    <th>{{ add.buyer_id }}    /     {{ buyer.username }}</th>
+            <th>{{add.username}}</th>
+            <th>{{add.phone}}</th>
+            <th>{{add.address}}</th>
+            <td>
+				<a href="{% url "buyers:address_change" add.id %}">修改</a> &nbsp; &nbsp;&nbsp;       <a href="{% url "buyers:address_del" add.id  %}">删除</a>
+            </td>
+          </tr>
+        </tbody>
+          {% endfor %}
+            <form method="post" action="{% url "buyers:person_address" id %}">
+                {% csrf_token %}
+            <tr>
+                <td><input type="text" name="id" readonly="readonly" value="{{ id }}"></td>
+                <td><input type="text" name="username" value=""></td>
+                <td><input type="text" name="phone" value=" "></td>
+                <td><input type="text" name="address" value=""></td>
+                <td>
+                    <input type="submit" value="添加">
+                </td>
+
+
+            </form>
+            </tr>
+      </table>
+
+    </div>
+   
+  </body>
+
+</html>

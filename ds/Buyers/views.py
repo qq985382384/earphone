@@ -1,11 +1,15 @@
-﻿
+﻿import os
+
 from django.shortcuts import render,HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import random,datetime,time,hashlib
 from Buyers.models import *
 from Shop.models import Goods, Types
-from ds.settings import EMAIL_HOST_USER
+from Shop.tools.uploads import FileUpload
+from ds.settings import EMAIL_HOST_USER, MEDIA_ROOT
+
+
 # Create your views here.
 
 
@@ -285,5 +289,125 @@ def paydata(order_num,count):
     return  "https://openapi.alipaydev.com/gateway.do?" + order_string
 
 
+
 def payverify(request,id):
-    return 
+    order = Order.objects.get(id=int(id))
+    order_num = order.order_num
+    order_count = order.total
+    url = paydata(order_num,order_count)
+    return HttpResponseRedirect(url)
+
+
+
+
+
+
+@cookieVerify
+def person(request):
+    time = datetime.datetime.now()
+    username = request.session['username']
+    print(username)
+    user = Buyer.objects.filter(username=username).first()
+
+    if request.method =="POST":
+        user_name = request.POST.get("user_name")
+        user_email = request.POST.get("email")
+        user_signature = request.POST.get("user_qianming")
+        user_photo = request.POST.get("photo")
+        user.username = user_name
+        user.email = user_email
+        user.signature = user_signature
+        file_obj = request.FILES.get('photo')
+        obj = FileUpload(file_obj, is_randomname=False)
+        path = MEDIA_ROOT
+        if obj.upload(path) > 0:
+            tupath = os.path.join(obj.file.name)
+            user.portrait = tupath
+            user.save()
+    return render(request, 'buyers/person.html', locals())
+@cookieVerify
+def upload(request):
+    if request.method =="POST":
+        file_obj = request.FILES.get('photo')
+        obj = FileUpload(file_obj,is_randomname=True)
+        path = MEDIA_ROOT
+        if obj.upload(path)  >0:
+            return HttpResponse("chenggong")
+        else:
+            return HttpResponse("shibai")
+    return render(request,"fileupload.html")
+
+@cookieVerify
+def address(request,id):
+    buyer = Buyer.objects.filter(id=id).first()
+    address = Address.objects.filter(buyer_id=id)
+    if request.method=="POST":
+        address_add(request,id=id)
+
+    return render(request,"buyers/person_address.html",locals())
+
+@cookieVerify
+def address_add(request,id):
+    username = request.POST.get("username")
+    print(username)
+    phone = request.POST.get("phone")
+    print(phone)
+    address = request.POST.get("address")
+    print(address)
+    address_new = Address()
+    address_new.buyer_id = id
+    address_new.phone=phone
+    address_new.username=username
+    address_new.address=address
+    address_new.save()
+    return render(request,"buyers/person_address.html",locals())
+
+
+def address_del(request,aid):
+    address1 = Address.objects.filter(id=aid).first()
+    id = address1.buyer_id
+    address1.delete()
+    print(id)
+    buyer = Buyer.objects.filter(id=id).first()
+    address = Address.objects.filter(buyer_id=id)
+    return render(request,"buyers/person_address.html",locals())
+
+
+def address_change(request,aid):
+    address1 = Address.objects.filter(id=aid).first()
+    id = address1.buyer_id
+    buyer = Buyer.objects.filter(id=id).first()
+    if request.method=="POST":
+        username = request.POST.get("user_name")
+        phone = request.POST.get("phone")
+        adress_1 = request.POST.get("address")
+
+        address1 = Address.objects.filter(id=aid).first()
+        address1.address = adress_1
+        address1.phone = phone
+        address1.username = username
+        address1.save()
+
+    return render(request,"buyers/person_change.html",locals())
+
+
+def person_mima(request,id):
+    result = {"status": "error", "data": ""}
+    user = Buyer.objects.filter(id=id).first()
+    if request.method =="POST":
+        old = request.POST.get("old_password")
+        new = request.POST.get("new_password")
+        re = request.POST.get("re_password")
+        if lockpw(old) == user.password:
+            if new ==re:
+                user.password=lockpw(new)
+                result["status"] = "success"
+                result["data"] = "密码次改成功！！！"
+                return render(request, "buyers/person_mima.html", locals())
+
+            else:
+                result['data'] = "两次密码不一致"
+                return render(request, "buyers/person_mima.html", locals())
+        else:
+            result['data'] = "旧密码错误"
+    return render(request,"buyers/person_mima.html",locals())

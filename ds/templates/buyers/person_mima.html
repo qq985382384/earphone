@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>个人信息中心</title>
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../static/shops/css/font.css">
+	<link rel="stylesheet" href="../../static/shops/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../../static/shops/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../static/shops/js/xadmin.js"></script>
+
+</head>
+
+
+    <!-- <div class="x-slide_left"></div> -->
+    <!-- 左侧菜单结束 -->
+    <!-- 右侧主体开始 -->
+    <body class="layui-anim layui-anim-up">
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">个人中心</a>
+        <a href="">地址修改</a>
+      </span>
+    </div>
+<form class="layui-form" method="post" enctype="multipart/form-data" >
+            {% csrf_token %}
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red"></span>id/用户名
+              </label>
+              <div class="layui-input-inline">
+
+                  <td><input type="text" id="L_email" name="goods_num" required="" autocomplete="off" class="layui-input" readonly="readonly" value="{{ user.id }}  /  {{ user.username }}"><p style="color: red">不可修改</p></td>
+
+              </div>
+          </div>
+            <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>旧密码：
+              </label>
+
+              <div class="layui-input-inline">
+                  <input type="text" id="L_username" name="old_password" required="" autocomplete="off" class="layui-input" value="">
+              </div>
+          </div>
+            <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>新密码：
+              </label>
+
+              <div class="layui-input-inline">
+                  <input type="text" id="L_username" name="new_password" required="" autocomplete="off" class="layui-input" value="">
+              </div>
+                <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>确认新密码：
+              </label>
+
+              <div class="layui-input-inline">
+                  <input type="text" id="L_username" name="re_password" required="" autocomplete="off" class="layui-input" value="">
+              </div>
+
+          </div>
+
+
+             <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+                  <span style="color: red">{{ result.data }}</span>
+              </label>
+
+
+
+          </div>
+
+
+
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+
+              <input type="submit" class="layui-btn" lay-filter="add" value="修改密码">
+
+          </div>
+      </form>
+   
+
+</html>
