@@ -38,11 +38,11 @@
 						<div class="panel-body p-t-30 p-b-30 text-center">
 							<div class="badge-sale-primary">Sale</div>
 
-							<a href="product-details.html" class="product-item">
+							<a href="{% url 'buyers:details' goods.goods.id %}" class="product-item">
 								<img src="/static/{{ goods.img }}" class="img-responsive center-block" alt="" />
 							</a>
 
-							<a href="product-details.html">
+							<a href="{% url 'buyers:details' goods.goods.id %}">
 								<h5 class="m-tb-20">{{ goods.goods.goods_name }}</h5>
 							</a>
 

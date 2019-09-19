@@ -28,22 +28,30 @@ def index(request):
     return render(request,'buyers/index.html')
 
 
-def product_details(request):
-    return render(request,'buyers/product-details.html')
-
 def products(request,id):
     id = int(id)
     if id == 0:
         type = {'label':'全部耳机','description':'所有商品，尽情挑选'}
         goods = Goods.objects.all()
     else:
-        type = Types.objects.get(id=id)
-        goods = Goods.objects.filter(types=id)
+        type = Types.objects.get(id=id) #取出这个类型的详情
+        goods = Goods.objects.filter(types=id) # 去除这个类型的全部商品
     data = []
     for i in goods:
-        img = i.image_set.first().img_path
-        data.append({'img':img,'goods':i})
+        img = i.image_set.first().img_path #取这个商品的第一张图片路径
+        data.append({'img':img,'goods':i}) # 将每个商品的信息与图片写入字典data中
     return render(request,'buyers/products.html',{'data':data,'type':type})
+
+def product_details(request,id):
+    id = int(id)
+    goods = Goods.objects.get(id=id)
+    imgs = goods.image_set.all()
+    showGoods = Goods.objects.all().order_by('-goods_now_price')[0:3]
+    data = []
+    for i in showGoods:
+        img = i.image_set.first().img_path #取出商品的第一张图片路径
+        data.append({'img':img,'goods':i}) #取出每个商品的信息与图片写入字典
+    return render(request,'buyers/product-details.html',locals())
 
 @cookieVerify
 def cart(request):

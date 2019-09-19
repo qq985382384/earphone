@@ -9,10 +9,10 @@
 					<div class="product-img-wrapper">
 						<div class="product-img-container bg-info">
 							<div class="bxslider">
-								<div><img src="/static/buyers/img/products/product-details1.png" alt="" /></div>
-								<div><img src="/static/buyers/img/products/product-details2.png" alt="" /></div>
-								<div><img src="/static/buyers/img/products/product-details3.png" alt="" /></div>
-								<div><img src="/static/buyers/img/products/product-details4.png" alt="" /></div>
+                                {% for image in imgs %}
+
+								<div><img style="width: 678px; height: 678px;" src="/static/{{ image.img_path }}" alt="" /></div>
+                                {% endfor %}
 							</div>
 						</div>
 					</div>
@@ -23,23 +23,23 @@
 						<div class="col-xs-12 col-sm-12 col-md-10 col-md-push-1 m-b-70">
 							<div class="row">
 								<div class="col-sm-8">
-									<h2 class="text-xs-center text-uppercase">Product</h2>
+									<h2 class="text-xs-center text-uppercase">产品详情</h2>
 								</div>
 
 								<div class="col-sm-4">
-									<h5 class="text-xs-center text-right text-gray">Over-ear <img src="/static/buyers/img/icon-headphones.png" class="h-30 align-text-bottom m-l-20" alt="" /></h5>
+									<h5 class="text-xs-center text-right text-gray">{{ goods.types.label }} <img src="/static/buyers/img/icon-headphones.png" class="h-30 align-text-bottom m-l-20" alt="" /></h5>
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-12 m-tb-100">
-									<h1>ST-O S1000</h1>
+									<h1>{{ goods.goods_name }}</h1>
 
-									<h4 class="text-success">Staro-One</h4>
+									<h4 class="text-success">{{ goods.goods_id }}</h4>
 
-									<p class="text-justify m-tb-70">Springing from Audio-Technica's rich heritage in professional audio, the ATH-MSR7 Over-Ear High-Resolution Audio Headphones are designed to reproduce Hi-Res Audio, allowing users to hear music the way it was intended. The over-ear headphones are outfitted with exclusive 45 mm True Motion Drivers, which utilize lightweight voice coils, a custom-mounted printed circuit board and specially designed diaphragm to improve transient response and minimize sound distortion for rich, detailed audio reproduction.</p>
+									<p class="text-justify m-tb-70" style="margin: 50px 0px">{{ goods.goods_description }}</p>
 
-									<h2>$199 <small class="strike m-l-10">$249</small></h2>
+									<h2>{{ goods.goods_now_price }}RMB <small class="strike m-l-10">{{ goods.goods_price }}RMB</small></h2>
 
 									<div class="m-b-20">
 										<a href="#" class="thumbnail variant active">
@@ -58,7 +58,7 @@
 										</a>
 									</div>
 
-									<a href="#" class="btn btn-success"><i class="fas fa-shopping-bag"></i>&nbsp; Add to Cart</a>
+									<a href="#" class="btn btn-success"><i class="fas fa-shopping-bag"></i>&nbsp; 加入购物车</a>
 								</div>
 
 								<!-- Tabs -->
@@ -66,80 +66,39 @@
 									<div role="tabpanel">
 										<ul class="nav nav-tabs nav-justified text-uppercase m-b-50" role="tablist">
 											<li class="active">
-												<a href="#tab1" data-toggle="tab">Overview</a>
+												<a href="#tab1" data-toggle="tab">详情</a>
 											</li>
 
 											<li>
-												<a href="#tab2" data-toggle="tab">Features</a>
-											</li>
-
-											<li>
-												<a href="#tab3" data-toggle="tab">Specifications</a>
+												<a href="#tab3" data-toggle="tab">产品参数</a>
 											</li>
 
 											<li>
 												<a href="#tab4" data-toggle="tab">FAQ</a>
 											</li>
 
-											<li>
-												<a href="#tab5" data-toggle="tab">Reviews</a>
-											</li>
 										</ul>
 
 										<div class="tab-content">
 											<div class="tab-pane active" id="tab1">
-												<h3 class="m-b-50">2018 Best Headphones of the Year</h3>
-
-												<a href="#">
-													<h4>Award Winner from Reviewed.com and USA Today</h4>
-												</a>
-
-												<p class="m-b-50">
-													<q>Audio-Technica's new flagship consumer headphones, the ATH-MSR7, have hit this balance of form and function right on the head.</q> - <a href="#" class="text-primary">Reviewed.com</a>
-												</p>
-
-												<p class="text-justify m-b-50">The ATH-MSR7 headphones also feature multi-layered air damping technology for extended mid-to-low frequency response. The housings, designed to “mirror” the full shape of the ear, are constructed of an aluminum/magnesium mix, layered to provide a lightweight, rigid structure that reduces unwanted resonance. Three precisely placed vents within these layers work to control air flow and improve dynamics.</p>
-
-												<!-- <iframe width="850" height="475" src="https://www.youtube.com/embed/25YY81UU0U8?rel=0&amp;controls=1&amp;showinfo=0" class="img-responsive center-block video-height m-b-50" allowfullscreen></iframe> -->
-
-												<p class="text-justify m-b-50">The over-ear headphones’ highly flexible swivel design, with soft, memory foam earpads and headband ensure lasting comfort even during the longest listening sessions. And with three detachable cables (standard 1.2 m (3.9') and 3.0 m (9.8') cables, plus a 1.2 m (3.9') cable with in-line controls and microphone for compatible smartphones and other devices) the ATH-MSR7 can provide Hi-Res Audio anywhere you go.</p>
-
-												<img src="/static/buyers/img/products/product-style1.png" class="img-responsive" alt="" />
-											</div>
-
-											<div class="tab-pane" id="tab2">
-												<p class="text-justify m-b-50">While many listeners may believe that high-resolution audio came along with the introduction of the Compact Disc in 1982, constraints on the disc’s storage space always prevented CD audio (standardized at 44.1 kHz/16-bit) from fully and completely reproducing the original recorded sound. The advent and subsequent popularity of MP3s only made this problem more pronounced – the necessary compression of these files causes audio information to be lost, thus greatly reducing the audio quality.</p>
-
-												<ul class="list-primary">
-													<li><i class="fas fa-angle-right m-r-10"></i> Newly designed 45 mm True Motion Drivers deliver Hi-Res Audio reproduction</li>
-													<li><i class="fas fa-angle-right m-r-10"></i> Multi-layer Air Damping Technology comprised of a layered aluminum/magnesium housing and triple-vent system reduces unwanted vibration and controls air stream for high audio clarity</li>
-													<li><i class="fas fa-angle-right m-r-10"></i> Ultra-comfortable, soft, memory foam earpads and headband</li>
-													<li><i class="fas fa-angle-right m-r-10"></i> Three detachable cables: standard 1.2 m (3.9') and 3.0 m (9.8') cables, plus 1.2 m (3.9') smartphone-compatible cable with in-line controls & mic</li>
-													<li><i class="fas fa-angle-right m-r-10"></i> Stainless steel acoustic mesh resistor provides improved high-frequency response, while bass acoustic resistor delivers accurate low-frequency response</li>
-													<li><i class="fas fa-angle-right m-r-10"></i> Includes carrying case</li>
-													<li><i class="fas fa-angle-right m-r-10"></i> Available in black (ATH-MSR7BK) and gun-metal grey (ATH-MSR7GM)</li>
-												</ul>
-
-												<iframe width="850" height="475" src="https://www.youtube.com/embed/25YY81UU0U8?rel=0&amp;controls=1&amp;showinfo=0" class="img-responsive center-block video-height m-tb-50" allowfullscreen></iframe>
+												{{ goods.goods_content|safe }}
 											</div>
 
 											<div class="tab-pane" id="tab3">
 												<p class="text-justify m-b-50">While many listeners may believe that high-resolution audio came along with the introduction of the Compact Disc in 1982, constraints on the disc’s storage space always prevented CD audio (standardized at 44.1 kHz/16-bit) from fully and completely reproducing the original recorded sound. The advent and subsequent popularity of MP3s only made this problem more pronounced – the necessary compression of these files causes audio information to be lost, thus greatly reducing the audio quality.</p>
 
 												<dl class="dl-horizontal">
-													<dt>Type</dt><dd>Dynamic</dd>
-													<dt>Driver Diameter</dt><dd>45 mm</dd>
-													<dt>Frequency Response</dt><dd>5-40,000 Hz</dd>
-													<dt>Maximum Input Power</dt><dd>2,000 mW</dd>
-													<dt>Sensitivity</dt><dd>100 dB/mW</dd>
-													<dt>Impedance</dt><dd>35 ohms</dd>
-													<dt>Weight</dt><dd>290 g</dd>
-													<dt>Cable</dt><dd>Detachable 1.2 m (3.9') standard cable, detachable 3.0 m (9.8') standard cable, detachable 1.2 m (3.9') cable with in-line controls and microphone for smartphones</dd>
-													<dt>Connector</dt><dd>3.5 mm gold-plated stereo mini plug, L-shaped</dd>
-													<dt>Accessories Included</dt><dd>Protective pouch</dd>
-													<dt>Type (Microphone)</dt><dd>Condenser</dd>
-													<dt>Frequency Response</dt><dd>50 - 4,000 Hz</dd>
-													<dt>Polar Pattern (Microphone)</dt><dd>Omnidirectional</dd>
+													<dt>类型</dt><dd>Dynamic</dd>
+													<dt>单元直径</dt><dd>45 mm</dd>
+													<dt>频率响应</dt><dd>5-40,000 Hz</dd>
+													<dt>最大功率</dt><dd>2,000 mW</dd>
+													<dt>灵敏度</dt><dd>100 dB/mW</dd>
+													<dt>阻抗</dt><dd>35 ohms</dd>
+													<dt>重量</dt><dd>290 g</dd>
+													<dt>线材</dt><dd>Detachable 1.2 m (3.9') standard cable, detachable 3.0 m (9.8') standard cable, detachable 1.2 m (3.9') cable with in-line controls and microphone for smartphones</dd>
+													<dt>接口</dt><dd>3.5 mm gold-plated stereo mini plug, L-shaped</dd>
+													<dt>包括配件</dt><dd>Protective pouch</dd>
+													<dt>麦克风类型</dt><dd>Condenser</dd>
 												</dl>
 											</div>
 
@@ -269,35 +228,18 @@
 
 						<div class="col-xs-12 col-sm-10 col-md-10">
 							<div class="row">
-								<div class="col-xs-12 col-sm-4 col-md-4">
-									<a href="#" class="product-item">
-										<img src="/static/buyers/img/products/product8.png" class="img-responsive p-30" alt="" />
-									</a>
-
-									<a href="#">
-										<h5 class="text-center m-b-20">ST-O S1000</h5>
-									</a>
-								</div>
+                                {% for i in data %}
 
 								<div class="col-xs-12 col-sm-4 col-md-4">
-									<a href="#" class="product-item">
-										<img src="/static/buyers/img/products/product9.png" class="img-responsive p-30" alt="" />
+									<a href="{% url 'buyers:details' i.goods.id %}" class="product-item">
+										<img style="width: 231px;height: 231px;" src="/static/{{ i.img }}" class="img-responsive p-30" alt="" />
 									</a>
 
-									<a href="#">
-										<h5 class="text-center m-b-20">ST-O S2000</h5>
+									<a href="{% url 'buyers:details' i.goods.id %}">
+										<h5 class="text-center m-b-20">{{ i.goods.goods_name }}</h5>
 									</a>
 								</div>
-
-								<div class="col-xs-12 col-sm-4 col-md-4">
-									<a href="#" class="product-item">
-										<img src="/static/buyers/img/products/product10.png" class="img-responsive p-30" alt="" />
-									</a>
-
-									<a href="#">
-										<h5 class="text-center m-b-20">ST-O S3000</h5>
-									</a>
-								</div>
+                                {% endfor %}
 							</div>
 						</div>
 
