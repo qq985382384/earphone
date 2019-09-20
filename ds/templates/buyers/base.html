@@ -34,15 +34,20 @@
 
 	<!-- Left menu -->
 	<div class="menu-left hidden-xs">
-		<a href="{% url 'buyers:person' %}" class="logo-left">
-			<img src="/static/buyers/img/logo.png" alt="" />
+		<a href="{% url 'buyers:person'  %}" class="logo-left">
+            {% if user.portrait %}
+			    <img src="../../static/{{ user.portrait }}" alt="" width="100px" height="100px"/>
+            {% else %}
+                <img src="/static/buyers/img/logo.png">
+            {% endif %}
 		</a>
 {% if request.session.username %}
 		<div class="nav-item">
 			<a href="" class="text-primary">
 				<i class="fas fa-user-circle fa-2x"></i>
-                {{ request.session.username }}
+                <b style="font-size: 8px">{{ user.username }}</b>
 			</a>
+            &nbsp;
             <a class="logout" href="{% url 'buyers:blogout' %}">退出</a>
 		</div>
 {% else %}

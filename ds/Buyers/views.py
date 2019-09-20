@@ -38,6 +38,7 @@ def index(request):
     userid = request.COOKIES.get('user_id')
     count = BuyCar.objects.filter(user_id=userid).aggregate(num=Count('user_id'))
     allcart = count['num']
+    user = Buyer.objects.filter(id = userid).first()
     return render(request,'buyers/index.html',locals())
 
 
@@ -76,7 +77,8 @@ def blogin(request):
         if user:
             pwd = lockpw(request.POST.get('password'))
             if pwd == user.password:
-                response = HttpResponseRedirect('/buyers/')
+                user = Buyer.objects.filter(email=email).first()
+                response = HttpResponseRedirect('/buyers/',locals())
                 response.set_cookie('user_id',user.id,max_age=3600)
                 response.set_cookie('username',user.username,max_age=3600)
                 request.session['username']=user.username

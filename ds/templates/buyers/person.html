@@ -30,7 +30,7 @@
               <dd><a href="{% url "buyers:blogout" %}">退出</a></dd>
             </dl>
           </li>
-          <li class="layui-nav-item to-index"><a href="/buyers/">前台首页</a></li>
+          <li class="layui-nav-item to-index"><a href="/buyers/">商城首页</a></li>
         </ul>
         
     </div>
@@ -97,7 +97,7 @@
               </label>
               <div class="layui-input-inline">
                   <p style="color: red">不可修改</p>
-                  <input type="text" id="L_email" name="goods_num" required="" autocomplete="off" class="layui-input" value="{{ user.id }}">
+                  <input type="text" id="L_email" name="goods_num" required="" autocomplete="off" class="layui-input" readonly="readonly" value="{{ user.id }}">
               </div>
           </div>
             <div class="layui-form-item">
