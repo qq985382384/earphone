@@ -312,7 +312,7 @@ def checkpay(request):
     order = Order.objects.get(order_num=orderid)
     order.order_statue=2
     order.save()
-    return HttpResponseRedirect('/buyers/')
+    return HttpResponseRedirect('/buyers/person_order/')
 
 
 def payverify(request,id):

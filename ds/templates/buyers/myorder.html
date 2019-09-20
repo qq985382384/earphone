@@ -62,7 +62,7 @@
             <td>
 				<a href="{% url "buyers:ordergoods" order.id %}">订单商品</a> &nbsp; &nbsp;&nbsp;
                   {% if order.order_statue == '1' %}
-                    <a href=""><b>去付款</b></a>&nbsp;&nbsp;&nbsp;<a href=""><b>放弃订单</b></a>
+                    <a href="{% url 'buyers:payverify' order.id %}"><b>去付款</b></a>&nbsp;&nbsp;&nbsp;<a href=""><b>放弃订单</b></a>
                 {% elif order.order_statue == '2' %}
                     <a href="">催促掌柜发货</a>
                 {% elif order.order_statue == '3' %}
