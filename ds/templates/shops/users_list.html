@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>全球生鲜卖家管理后台</title>
+    <link rel="stylesheet" href="../../static/shops/css/font.css">
+    <link rel="stylesheet" href="../../static/shops/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/shops/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../static/shops/js/xadmin.js"></script>
+  </head>
+  
+  <body class="layui-anim layui-anim-up">
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">用户管理</a>
+        <a href="">用户信息</a>
+      </span>
+    </div>
+    <div class="x-body">
+        {% csrf_token %}
+      <table class="layui-table">
+        <thead>
+          <tr>
+		    <th>用户id</th>
+            <th>用户名</th>
+            <th>email</th>
+            <th>头像</th>
+            <th>签名</th>
+            <th>状态</th>
+            <th>操作</th>
+			</tr>
+        </thead>
+          {% for buyer in buyers %}
+        <tbody>
+          <tr>
+		    <th>{{ buyer.id }}</th>
+            <th>{{buyer.username}}</th>
+            <th><a href="" style="text-decoration:none ">{{ buyer.email}}</a></th>
+            <th><img src="../../static/{{buyer.portrait}} " width="50px" height="50px"></th>
+            <th>{{buyer.signature}}</th>
+              {% if buyer.isactive <= 5 %}
+                  <th>激活</th>
+              {% else %}
+                  <th>锁定</th>
+              {% endif %}
+
+                    {% if buyer.isactive <= 5 %}
+                        <th><a id="sd">锁定用户</a></th>
+                    {% else %}
+                        <th>解锁用户</th>
+                    {% endif %}
+
+          </tr>
+        </tbody>
+          {% endfor %}
+      </table>
+
+    </div>
+   
+  </body>
+
+</html>

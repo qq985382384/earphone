@@ -195,3 +195,8 @@ def upload(request):
         else:
             return HttpResponse("shibai")
     return render(request,"fileupload.html")
+
+
+def user(request):
+    buyers = Buyer.objects.filter()
+    return render(request, "shops/users_list.html",locals())

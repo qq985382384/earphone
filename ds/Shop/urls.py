@@ -13,6 +13,8 @@ urlpatterns = [
     url(r'^goodschange/(\d+)$', views.goodchange, name='goodchange'),
     url(r'^goodsdel/(\d+)$', views.goodsDel, name='del'),
     url(r'^goodsDetail/(\d+)$', views.goodsDetails, name='details'),
+    url(r'^user/$', views.user, name='user'),
+    url(r'^userlock/(\d+)l9$', views.user, name='user'),
 
 
 ]
