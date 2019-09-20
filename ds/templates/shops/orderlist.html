@@ -64,9 +64,9 @@
                   {% if order.order_statue == '1' %}
                     待付款
                 {% elif order.order_statue == '2' %}
-                    发货
+                    <a href="{% url 'shops:fahuo' order.id %}">发货</a>
                 {% elif order.order_statue == '3' %}
-                    配送中
+                    已发货，等待用户签收
                 {% elif order.order_statue == '4' %}
                     交易完成
                 {% elif order.order_statue == '0' %}

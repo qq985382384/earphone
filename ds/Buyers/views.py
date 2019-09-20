@@ -436,3 +436,18 @@ def person_mima(request,id):
 def person_order(request,id):
     orders = Order.objects.filter(user_id=id)
     return render(request,"buyers/myorder.html",locals())
+
+
+def ordergoods(request,id):
+    ordergood = OrderGoods.objects.filter(order_id=id)
+    return render(request,"buyers/ordergoods.html",locals())
+
+
+def shouhuo(request,id):
+
+    order = Order.objects.filter(id=id).first()
+    order.order_statue = 4
+    order.save()
+    uid = order.user_id
+    orders = Order.objects.filter(user_id=uid)
+    return render(request,"buyers/myorder.html",locals())
