@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>EARPHONE管理后台</title>
+    <link rel="stylesheet" href="../../static/shops/css/font.css">
+    <link rel="stylesheet" href="../../static/shops/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/shops/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../static/shops/js/xadmin.js"></script>
+  </head>
+  
+  <body class="layui-anim layui-anim-up">
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">订单管理</a>
+        <a href="">订单列表</a>
+      </span>
+    </div>
+    <div class="x-body">
+        {% csrf_token %}
+      <table class="layui-table">
+        <thead>
+          <tr>
+		    <th>订单id</th>
+            <th>订单编号</th>
+            <th>创建时间</th>
+            <th>订单状态</th>
+            <th>总计</th>
+            <th>订单地址</th>
+			<th>用户</th>
+            <th>操作</th>
+			</tr>
+
+        </thead>
+          {% for order in orders %}
+        <tbody>
+          <tr>
+		    <th>{{ order.id }}</th>
+            <th>{{order.order_num}}</th>
+            <th>{{order.order_time}}</th>
+{#            状态 未支付1 支付成功2 配送中3 交易完成4 取消 0#}
+            <th>
+
+                {% if order.order_statue == '1' %}
+                    未付款
+                {% elif order.order_statue == '2' %}
+                    支付成功，未发货
+                {% elif order.order_statue == '3' %}
+                    配送中
+                {% elif order.order_statue == '4' %}
+                    交易完成
+                {% elif order.order_statue == '0' %}
+                    订单被取消
+                {% endif %}
+            </th>
+
+            <th>{{order.total}}</th>
+            <th>{{order.order_address.address}}</th>
+			<th>{{order.user.username}}</th>
+            <td>
+				<a href="{% url "shops:ordergoods" order.id %}">订单商品</a> &nbsp; &nbsp;&nbsp;
+                  {% if order.order_statue == '1' %}
+                    <a href=""><b>去付款</b></a>&nbsp;&nbsp;&nbsp;<a href=""><b>放弃订单</b></a>
+                {% elif order.order_statue == '2' %}
+                    <a href="">催促掌柜发货</a>
+                {% elif order.order_statue == '3' %}
+                    <a href="">确认收货</a>
+                {% elif order.order_statue == '4' %}
+                    已收货，交易完成
+                {% elif order.order_statue == '0' %}
+                    删除订单
+                {% endif %}
+
+            </td>
+          </tr>
+        </tbody>
+          {% endfor %}
+      </table>
+
+    </div>
+   
+  </body>
+
+</html>
