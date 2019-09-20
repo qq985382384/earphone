@@ -1,5 +1,6 @@
 ﻿import os
 
+from django.db.models import Count
 from django.shortcuts import render,HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives
 from django.http import JsonResponse, HttpResponse
@@ -29,7 +30,10 @@ def cookieVerify(fun):
 
 
 def index(request):
-    return render(request,'buyers/index.html')
+    userid = request.COOKIES.get('user_id')
+    count = BuyCar.objects.filter(user_id=userid).aggregate(num=Count('user_id'))
+    allcart = count['num']
+    return render(request,'buyers/index.html',locals())
 
 
 def products(request,id):
@@ -255,7 +259,7 @@ def pay(request):
         order.total=alltotal
         order.user = Buyer.objects.get(id=userId)
         order.order_address = address
-
+        order.save()
         #订单商品
         for good in goods_list:  #循环保存订单中的商品
             g = good["goods"]
@@ -268,9 +272,12 @@ def pay(request):
             goods.order = order
             goods.save()
     return render(request,'buyers/enterpay.html',locals())
-
-#支付跳转函数
 from alipay import AliPay
+#支付跳转函数
+
+from alipay import AliPay
+
+
 def paydata(order_num,count):
     alipay_public_key_string = '''-----BEGIN PUBLIC KEY-----
    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlHEg4KZ9r0o4Wg8Qb6rbYL2sOJ6DfMUYgoj07GCeeXqUUPgeR8CkWHuoB5fyCcOQ8OXDmJBu6kUijjsGK/94vqvW4SPuzgvsCkZv98/ajh/YB8jYrf40NhHoalJ6jUcT6Id9y/BYX4773rVOvR0Eq7r1EFYg8LUch2j/Y6q4HHcolz2La1wHLUxaI16pFj+QGbmb6EK8qE3KJy/A/lBNRhNMJeSTVdkyk42rqsRp0fy74AnEt/xRh7fyr61N/jN7j0/oGSTI/vvtzDib+ezt+JXUJMa6rP1c5pclRyWRQn+ZS5N1IadpgE8m88UR8RTUaZCXsIP0/c4t7KNVgudOAwIDAQAB

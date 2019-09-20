@@ -14,7 +14,10 @@ urlpatterns = [
     url(r'^goodsdel/(\d+)$', views.goodsDel, name='del'),
     url(r'^goodsDetail/(\d+)$', views.goodsDetails, name='details'),
     url(r'^user/$', views.user, name='user'),
-    url(r'^userlock/(\d+)l9$', views.user, name='user'),
+    url(r'^userlock/(\d+)$', views.locked, name='locked'),
+    url(r'^order/$', views.order, name='order'),
+    url(r'^ordergoods/(\d+)$', views.ordergoods, name='ordergoods'),
+
 
 
 ]

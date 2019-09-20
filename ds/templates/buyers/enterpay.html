@@ -1,7 +1,7 @@
 {% extends 'buyers/base.html' %}
 {% load static %}
 {% block content %}
-    <!-- Content -->
+<!-- Content -->
 	<div class="content-right">
 		<div class="container m-t-100 m-b-100">
 			<div class="row">
@@ -109,7 +109,7 @@
 					<div class="col-xs-12 col-sm-12 col-md-12 text-center">
 						<div class="separator-two m-b-30"></div>
 
-						<a href="/buyers/payVerify/{{ order.id }}/" class="btn btn-success"><i class="fas fa-shopping-bag"></i>&nbsp; 确认支付</a>
+						<a href="{% url 'buyers:payverify' order.id %}" class="btn btn-success"><i class="fas fa-shopping-bag"></i>&nbsp; 确认支付</a>
 
 						<p class="small m-t-20"><a href="{% url 'buyers:cart' %}"><i class="fas fa-angle-left"></i> 取消支付</a></p>
 					</div>

@@ -3,7 +3,7 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>全球生鲜卖家管理后台</title>
+    <title>EARPHONE管理后台</title>
     <link rel="stylesheet" href="../../static/shops/css/font.css">
     <link rel="stylesheet" href="../../static/shops/css/xadmin.css">
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
@@ -43,15 +43,15 @@
               {% if buyer.isactive <= 5 %}
                   <th>激活</th>
               {% else %}
-                  <th>锁定</th>
+                  <th style="color: red">锁定</th>
               {% endif %}
-
+                <td>
                     {% if buyer.isactive <= 5 %}
-                        <th><a id="sd">锁定用户</a></th>
-                    {% else %}
-                        <th>解锁用户</th>
+                        <a href="{% url "shops:locked" buyer.id %}">锁定用户</a>
+                    {% elif buyer.isactive > 5 %}
+                        <a href="{% url "shops:locked" buyer.id %}">解锁用户</a>
                     {% endif %}
-
+                </td>
           </tr>
         </tbody>
           {% endfor %}
