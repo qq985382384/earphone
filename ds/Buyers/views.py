@@ -5,6 +5,10 @@ from django.shortcuts import render,HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives
 from django.http import JsonResponse, HttpResponse
 import random,datetime,time,hashlib
+
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from Buyers.models import *
 from Shop.models import Goods, Types
 from Shop.tools.uploads import FileUpload
@@ -271,6 +275,8 @@ def pay(request):
             goods.goods_picture=g.goods_picture
             goods.order = order
             goods.save()
+        cargoods = BuyCar.objects.get(user=int(userId))
+        cargoods.delete()
     return render(request,'buyers/enterpay.html',locals())
 from alipay import AliPay
 #支付跳转函数
@@ -295,11 +301,18 @@ def paydata(order_num,count):
         out_trade_no=str(order_num),
         total_amount=str(count),  #将Decimal类型转换为字符串交给支付宝
         subject="耳机商城",
-        return_url=None,
+        return_url='http://127.0.0.1:8000/buyers/checkpay',
         notify_url=None  # 可选, 不填则使用默认notify url
     )
+
     return  "https://openapi.alipaydev.com/gateway.do?" + order_string
 
+def checkpay(request):
+    orderid = request.GET.get('out_trade_no')
+    order = Order.objects.get(order_num=orderid)
+    order.order_statue=2
+    order.save()
+    return render(request,'buyers/index.html')
 
 
 def payverify(request,id):
@@ -308,9 +321,6 @@ def payverify(request,id):
     order_count = order.total
     url = paydata(order_num,order_count)
     return HttpResponseRedirect(url)
-
-
-
 
 
 
