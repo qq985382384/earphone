@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^address_del/(\d+)$', views.address_del, name='address_del'),
     url(r'^address_change/(\d+)$', views.address_change, name='address_change'),
     url(r'^person_mima/(\d+)$', views.person_mima, name='person_mima'),
+    url(r'^person_order/(\d+)$', views.person_order, name='person_order'),
 
 ]

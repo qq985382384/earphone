@@ -431,3 +431,8 @@ def person_mima(request,id):
         else:
             result['data'] = "旧密码错误"
     return render(request,"buyers/person_mima.html",locals())
+
+
+def person_order(request,id):
+    orders = Order.objects.filter(user_id=id)
+    return render(request,"buyers/myorder.html",locals())
