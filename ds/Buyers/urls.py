@@ -24,5 +24,8 @@ urlpatterns = [
     url(r'^address_change/(\d+)$', views.address_change, name='address_change'),
     url(r'^person_mima/(\d+)$', views.person_mima, name='person_mima'),
     url(r'^person_order/(\d+)$', views.person_order, name='person_order'),
+    url(r'^ordergoods/(\d+)$', views.ordergoods, name='ordergoods'),
+    url(r'^shouhuo/(\d+)$', views.shouhuo, name='shouhuo'),
+
 
 ]

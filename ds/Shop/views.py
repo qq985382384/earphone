@@ -225,3 +225,10 @@ def ordergoods(request,id):
     ordergoodes = OrderGoods.objects.filter(order_id=id)
 
     return render(request, "shops/ordergoods.html", locals())
+
+def fahuo(request,id):
+    orders = Order.objects.filter()
+    order = Order.objects.filter(id=id).first()
+    order.order_statue = 3
+    order.save()
+    return render(request, "shops/orderlist.html", locals())

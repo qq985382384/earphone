@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^userlock/(\d+)$', views.locked, name='locked'),
     url(r'^order/$', views.order, name='order'),
     url(r'^ordergoods/(\d+)$', views.ordergoods, name='ordergoods'),
+    url(r'^fahuo/(\d+)$', views.fahuo, name='fahuo'),
 
 
 

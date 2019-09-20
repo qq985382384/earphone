@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>EARPHONE管理后台</title>
+    <link rel="stylesheet" href="../../static/shops/css/font.css">
+    <link rel="stylesheet" href="../../static/shops/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/shops/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../static/shops/js/xadmin.js"></script>
+  </head>
+
+  <body class="layui-anim layui-anim-up">
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">订单管理</a>
+        <a href="">订单详情</a>
+      </span>
+    </div>
+    <div class="x-body">
+        {% csrf_token %}
+      <table class="layui-table">
+        <thead>
+          <tr>
+		    <th>商品id</th>
+            <th>商品名称</th>
+            <th>商品单价</th>
+            <th>购买数量</th>
+            <th>商品展示</th>
+            <th>订单id</th>
+
+
+			</tr>
+        </thead>
+          {% for goods in ordergood %}
+        <tbody>
+          <tr>
+		    <th>{{ goods.id }}</th>
+            <th>{{goods.good_name}}</th>
+            <th>{{goods.good_price}}</th>
+            <th>{{goods.good_num}}</th>
+            <th><img src="../../static/{{ goods.goods_picture }}"></th>
+            <th>{{goods.order_id}}</th>
+
+
+          </tr>
+        </tbody>
+          {% endfor %}
+      </table>
+
+    </div>
+
+  </body>
+
+</html>
