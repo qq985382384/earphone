@@ -12,6 +12,7 @@ from rest_framework.views import APIView
 from Buyers.models import *
 from Shop.models import Goods, Types
 from Shop.tools.uploads import FileUpload
+from ds import settings
 from ds.settings import EMAIL_HOST_USER, MEDIA_ROOT
 
 
@@ -188,7 +189,7 @@ def cart(request):
         alltotal += total
         data.append({'total':total,'goods':i,'js':goods.goods_id})
     return render(request,'buyers/cart.html',locals())
-
+@cookieVerify
 def addcart(request,id):
     user = BuyCar()
     userid = request.COOKIES.get('user_id')
@@ -278,26 +279,19 @@ def pay(request):
         cargoods = BuyCar.objects.get(user=int(userId))
         cargoods.delete()
     return render(request,'buyers/enterpay.html',locals())
-from alipay import AliPay
+
 #支付跳转函数
 
 from alipay import AliPay
 
 
 def paydata(order_num,count):
-    alipay_public_key_string = '''-----BEGIN PUBLIC KEY-----
-   MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlHEg4KZ9r0o4Wg8Qb6rbYL2sOJ6DfMUYgoj07GCeeXqUUPgeR8CkWHuoB5fyCcOQ8OXDmJBu6kUijjsGK/94vqvW4SPuzgvsCkZv98/ajh/YB8jYrf40NhHoalJ6jUcT6Id9y/BYX4773rVOvR0Eq7r1EFYg8LUch2j/Y6q4HHcolz2La1wHLUxaI16pFj+QGbmb6EK8qE3KJy/A/lBNRhNMJeSTVdkyk42rqsRp0fy74AnEt/xRh7fyr61N/jN7j0/oGSTI/vvtzDib+ezt+JXUJMa6rP1c5pclRyWRQn+ZS5N1IadpgE8m88UR8RTUaZCXsIP0/c4t7KNVgudOAwIDAQAB
-    -----END PUBLIC KEY-----'''
-
-    app_private_key_string = '''-----BEGIN RSA PRIVATE KEY-----
-    MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCUcSDgpn2vSjhaDxBvqttgvaw4noN8xRiCiPTsYJ55epRQ+B5HwKRYe6gHl/IJw5Dw5cOYkG7qRSKOOwYr/3i+q9bhI+7OC+wKRm/3z9qOH9gHyNit/jQ2EehqUnqNRxPoh33L8FhfjvvetU69HQSruvUQViDwtRyHaP9jqrgcdyiXPYtrXActTFojXqkWP5AZuZvoQryoTconL8D+UE1GE0wl5JNV2TKTjauqxGnR/LvgCcS3/FGHt/KvrU3+M3uPT+gZJMj+++3MOJv57O34ldQkxrqs/VzmlyVHJZFCf5lLk3Uhp2mATybzxRHxFNRpkJewg/T9zi3so1WC504DAgMBAAECggEAIkh+b2QEYxehLCuOgDvVruIfhHQXqhlbL8qxxmYKM8Q7vPeRBsFXM5hblmVhYR/publXE0VIWJLfCDpZko/OMzs8xYKnBK98NGNQOMuojmqMWj/oy0aKiHJaWzPxWe+wiWPBifhYcLl1MlptdP/etErZjoxVz0IE9MErOrmTC/+dF/qTcvCgZEWwVYex9z9vMBmAo7ndbzcHqBAzISQMkMrkToelY9+1EgfWU7oserayly0mu9QhnH6pdOAl9/N8rbb5Bka2eZ1nc/UtvVrf7CpKNLbjMabPZixpynqGyE8MUDMqkBzQ2qpZulaijmQXG5sLrY9ZqLFLdnvV9d4MAQKBgQDx/I8OMgJpMmQpXM65qdrOD3vM82vNJ7FEf7ObMhfAKeNMICWSWx/6GKThZDtusAc/ZuwvY9dZw4u3Izplw56FuI/U2OhE+QOlFKoBH425IAe3KaF4XMAp+n3n1UZp1m4XD1+ZM0ZpddecbW37Eg6Z0iluMNCMr0oUc5q2fxEVMQKBgQCdCcYcHa24sB1sZDGillCfrhYECx9ws66JdUnlGTlm3yxlV89x5pynrDaV2gLA3kB93LSe6zu+HXhx4czWgILAPLWtjAMzYAS21WGnh2so0eM/oug8wbo0U4srMnmnGoPmX+6rtOJWPWxfJbmlIPEHLhkaMu5HbS4+r5L273kZcwKBgQDh6PWou/lSOlAV6WW5ISB7ZSsfsFUAx0CQAWQsy/wuUyy3Af/xfY8BzgYHwapWcJGjmDOBHoWKcKs7wvCe1pxknGPywrk8wvirIfqAZ/PIU2XAkmYDVxuzVP478/jzj9NhReHqxVrD09cBW4vka/wjkHdLPtlDrdXL+A0EuOW60QKBgQCCbbu9XmkLHDtT62PORkpwVYazlQln8dTlFiVpwqmKZ5HYGjaRw5gZK0+q5oei6PVnlAfwdjAIlzGSZJhdEB+IyuOaYM/Hu9gugsu4+SBnpuu3zvZUgBLHoxvTpPilccBbdxIkSvgx6JI59HtcSx/ldsQinmqJqITgS7MkpYFPQQKBgQCxUi2yh8r0Y9RSDgfmghF4S2XxivGwsn6HZNekCNDbgGg+GUj5YLn1KuKvCvGbWhAReo4lYDg+6NQjy94qF7JB682xZsS8MHsJXTv9objT99BvRXH6TEn35vZu+FCc7B8Ag6qDJaQJGW83sW4blN/QhE54O68DhO9ibo1vXZ8ooA==
-    -----END RSA PRIVATE KEY-----'''
 
     alipay = AliPay(
-        appid="2016101300676110",  # 支付宝app的id
+        appid=settings.APPID,  # 支付宝app的id
         app_notify_url=None,  # 回调视图
-        app_private_key_string=app_private_key_string,  # 私钥字符
-        alipay_public_key_string=alipay_public_key_string,  # 公钥字符
+        app_private_key_string=settings.APP_PRIVATE_KEY,  # 私钥字符
+        alipay_public_key_string=settings.ALIPAY_PUBLIC_KEY,  # 公钥字符
         sign_type="RSA2",  # 加密方法
     )
 
@@ -316,7 +310,7 @@ def checkpay(request):
     order = Order.objects.get(order_num=orderid)
     order.order_statue=2
     order.save()
-    return render(request,'buyers/index.html')
+    return HttpResponseRedirect('/buyers/')
 
 
 def payverify(request,id):

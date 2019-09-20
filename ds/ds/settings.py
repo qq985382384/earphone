@@ -142,3 +142,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 CKEDITOR_UPLOAD_PATH = "static/upload"
 CKEDITOR_IMAGE_BACKEND = "pillow"
 CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+
+
+APP_PRIVATE_KEY = open(os.path.join(BASE_DIR,'tools/app_private_key.pem')).read()
+ALIPAY_PUBLIC_KEY = open(os.path.join(BASE_DIR,'tools/alipay_public_key.pem')).read()
+APPID = '2016101300676110'
