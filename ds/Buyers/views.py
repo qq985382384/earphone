@@ -47,8 +47,7 @@ def products(request,id):
     userid = request.COOKIES.get('user_id')
     user = Buyer.objects.filter(id=userid).first()
 
-    print(user.portrait)
-    print(user.username)
+
     id = int(id)
     if id == 0:
         type = {'label':'全部耳机','description':'所有商品，尽情挑选'}
@@ -74,7 +73,7 @@ def product_details(request,id):
         data.append({'img':img,'goods':i}) #取出每个商品的信息与图片写入字典
     userid = request.COOKIES.get('user_id')
     user = Buyer.objects.filter(id=userid).first()
-    print(user.id)
+
     return render(request,'buyers/product-details.html',locals())
 
 
@@ -469,3 +468,7 @@ def shouhuo(request,id):
     uid = order.user_id
     orders = Order.objects.filter(user_id=uid)
     return render(request,"buyers/myorder.html",locals())
+
+
+def findpassword(request):
+    return render(request,"buyers/findpassword.html",locals())
