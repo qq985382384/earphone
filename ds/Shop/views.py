@@ -195,3 +195,33 @@ def upload(request):
         else:
             return HttpResponse("shibai")
     return render(request,"fileupload.html")
+
+@cookieVerify
+def user(request):
+    buyers = Buyer.objects.filter()
+    return render(request, "shops/users_list.html",locals())
+
+@cookieVerify
+def locked(request,id):
+    user = Buyer.objects.filter(id=id).first()
+    if user.isactive >=5:
+        user.isactive=0
+        user.save()
+    elif user.isactive <5:
+        user.isactive=6
+        user.save()
+
+    return HttpResponseRedirect("/shops/user/")
+
+@cookieVerify
+def order(request):
+    orders = Order.objects.filter()
+
+
+    return render(request, "shops/orderlist.html", locals())
+
+@cookieVerify
+def ordergoods(request,id):
+    ordergoodes = OrderGoods.objects.filter(order_id=id)
+
+    return render(request, "shops/ordergoods.html", locals())

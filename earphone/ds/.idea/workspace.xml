@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="63d06cad-2b61-403b-ad2c-b01edbafa204" name="Default Changelist" comment="update" />
+    <list default="true" id="63d06cad-2b61-403b-ad2c-b01edbafa204" name="Default Changelist" comment="update">
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Buyers/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Buyers/views.py" afterDir="false" />
+=======
+      <change afterPath="$PROJECT_DIR$/static/6666666666666.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/buyers/person.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/buyers/person_address.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/buyers/person_change.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/buyers/person_mima.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ds.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ds.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Buyers/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Buyers/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Buyers/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Buyers/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Buyers/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Buyers/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/buyers/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/buyers/base.html" afterDir="false" />
+>>>>>>> 170f0806c7471db3072b0b469a3499f17b63c485
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,22 +158,12 @@
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
               <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@3133d207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@6785b5b5" type="9fbbdea:ServiceModel$ServiceNode" />
-            </path>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@3133d207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@681c384e" type="9fbbdea:ServiceModel$ServiceNode" />
-            </path>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@3133d207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
               <item name="com.intellij.execution.services.ServiceModel$ServiceNode@8e77dd1" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
               <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@3133d207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@5164dbde" type="9fbbdea:ServiceModel$ServiceNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@5772ac1a" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
           </expand>
           <select />
@@ -178,9 +186,12 @@
       <workItem from="1568766248732" duration="22626000" />
       <workItem from="1568810703403" duration="6645000" />
       <workItem from="1568854283445" duration="431000" />
+
       <workItem from="1568858007769" duration="26474000" />
+
       <workItem from="1568858007769" duration="23653000" />
       <workItem from="1568891365426" duration="1130000" />
+
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1568858859734</created>
