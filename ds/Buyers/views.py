@@ -36,6 +36,7 @@ def cookieVerify(fun):
 
 def index(request):
     userid = request.COOKIES.get('user_id')
+    user = Buyer.objects.filter(id=userid).first()
     count = BuyCar.objects.filter(user_id=userid).aggregate(num=Count('user_id'))
     allcart = count['num']
     user = Buyer.objects.filter(id = userid).first()
@@ -43,6 +44,11 @@ def index(request):
 
 
 def products(request,id):
+    userid = request.COOKIES.get('user_id')
+    user = Buyer.objects.filter(id=userid).first()
+
+    print(user.portrait)
+    print(user.username)
     id = int(id)
     if id == 0:
         type = {'label':'全部耳机','description':'所有商品，尽情挑选'}
@@ -54,9 +60,10 @@ def products(request,id):
     for i in goods:
         img = i.image_set.first().img_path #取这个商品的第一张图片路径
         data.append({'img':img,'goods':i}) # 将每个商品的信息与图片写入字典data中
-    return render(request,'buyers/products.html',{'data':data,'type':type})
+    return render(request,'buyers/products.html', {'data':data,'type':type,'user':user})
 
 def product_details(request,id):
+
     id = int(id)
     goods = Goods.objects.get(id=id)
     imgs = goods.image_set.all()
@@ -65,6 +72,9 @@ def product_details(request,id):
     for i in showGoods:
         img = i.image_set.first().img_path #取出商品的第一张图片路径
         data.append({'img':img,'goods':i}) #取出每个商品的信息与图片写入字典
+    userid = request.COOKIES.get('user_id')
+    user = Buyer.objects.filter(id=userid).first()
+    print(user.id)
     return render(request,'buyers/product-details.html',locals())
 
 
@@ -181,7 +191,9 @@ def blogout(request):
 
 @cookieVerify
 def cart(request):
+
     userid = request.COOKIES.get('user_id')
+    user = Buyer.objects.filter(id=userid).first()
     buycarGoos = BuyCar.objects.filter(user=userid)
     alltotal = 0
     data = []
@@ -195,6 +207,7 @@ def cart(request):
 def addcart(request,id):
     user = BuyCar()
     userid = request.COOKIES.get('user_id')
+    user = Buyer.objects.filter(id=userid).first()
     usergoods = Goods.objects.get(id=int(id))
     user.goods_id = usergoods.id
     user.goods_name = usergoods.goods_name
@@ -208,6 +221,7 @@ def addcart(request,id):
 
 def delcart(request,id):
     userId = request.COOKIES.get('user_id')
+    user = Buyer.objects.filter(id=userId).first()
     goods = BuyCar.objects.get(user=int(userId),id=int(id))
     goods.delete()
     return HttpResponseRedirect('/buyers/cart/')
@@ -222,6 +236,7 @@ def order(request):
     alltotal = 0
     data = []
     userId = request.COOKIES.get('user_id')
+    user = Buyer.objects.filter(id=userId).first()
     if request.method == 'POST' and request.POST:
         count = request.POST.getlist('quantity')
         for i in range(0,len(count)):
@@ -236,6 +251,7 @@ def order(request):
 
 
 def pay(request):
+
     if request.POST and request.method == 'POST':
         alltotal = 0
         goods_list = []
