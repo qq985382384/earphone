@@ -8,7 +8,7 @@ var countdown=60;
 function settime(obj) {
     if (countdown == 0) {
         obj.removeAttribute("disabled");
-        obj.value="点击";
+        obj.value="重新发送";
         countdown = 60;
         return;
     } else {
@@ -20,6 +20,18 @@ setTimeout(function() {
     settime(obj) }
     ,1000)
 }
+ function check_name() {
+    var reg = /^[-_a-zA-Z0-9]{4,16}$/;
+     if (!reg.test($('#username').val())){
+        $('#username').before("<label id=\"del\" style=\"color: #447e9b;margin-left: 40%\">用户名格式错误</label>")
+        $('#sub').attr('disabled','disabled')
+     }
+ }
+ function del() {
+     $('#del').remove();
+     $('#sub').removeAttr('disabled')
+ }
+
 
 </script>
 
@@ -36,13 +48,13 @@ setTimeout(function() {
 				<div class="m-b-70 clearfix hidden-xs hidden-sm"></div>
 
 				<div class="col-sm-12 m-t-70">
-					<form method="post" action="{% url 'buyers:register' %}">
+					<form method="post" id="form" action="{% url 'buyers:register' %}">
                         {% csrf_token %}
 						<div class="row">
 							<div class="col-xs-12 col-sm-4 col-sm-push-4">
 								<div class="form-group form-group-default required">
 									<label>用户名</label>
-									<input type="text" name="username" class="form-control" required />
+									<input type="text" name="username" id="username" class="form-control" required onblur="check_name()" onfocus="del()" />
 								</div>
 
 								<div class="form-group form-group-default required">
@@ -60,7 +72,7 @@ setTimeout(function() {
 								</div>
 
 								<div class="form-group text-center m-t-40">
-									<button type="submit" class="btn btn-success"><i class="fas fa-unlock"></i>&nbsp; 注册</button>
+									<button type="submit" id="sub" class="btn btn-success" onmouseover="check()" onmouseout="sub()" ><i class="fas fa-unlock"></i>&nbsp; 注册</button>
                                     <p id="ts" style="color: red;">{{ result.data }}</p>
 									<p class="small m-t-20">
 										已有账号? <a href="{% url 'buyers:blogin' %}" class="text-success">登录</a>
