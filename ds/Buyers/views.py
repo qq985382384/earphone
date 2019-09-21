@@ -136,7 +136,7 @@ def register(request):
     if request.method == 'POST' and request.POST:
         email = request.POST.get('email')
         user = Buyer.objects.values_list("email")
-        print(email)
+
         print(user)
         username = request.POST.get('username')
         message = request.POST.get('message')
@@ -145,27 +145,28 @@ def register(request):
         print(db_email.value)
         if (email,) in user:
             result['data'] = '该邮箱已经注册'
-        elif db_email:
-            if message == db_email.value:
-                now = time.mktime(
-                    datetime.datetime.now().timetuple()
-                )
-                db_now = time.mktime(db_email.times.timetuple())
-                if now - db_now > 60:
-                    result['data'] = '验证码过期'
-                    db_email.delete()
-                else:
-                    b = Buyer()
-                    b.username = username
-                    b.email = email
-                    b.password = lockpw(pwd)
-                    b.save()
-                    db_email.delete()
-                    return HttpResponseRedirect('/buyers/login/')  # 注册成功跳转到登录页
-            else:
-                result['data'] = '验证码错误'
         else:
-            result['data'] = '邮箱不匹配'
+            if db_email:
+                if message == db_email.value:
+                    now = time.mktime(
+                        datetime.datetime.now().timetuple()
+                    )
+                    db_now = time.mktime(db_email.times.timetuple())
+                    if now - db_now > 600:
+                        result['data'] = '验证码过期'
+                        db_email.delete()
+                    else:
+                        b = Buyer()
+                        b.username = username
+                        b.email = email
+                        b.password = lockpw(pwd)
+                        b.save()
+                        db_email.delete()
+                        return HttpResponseRedirect('/buyers/login/')  # 注册成功跳转到登录页
+                else:
+                    result['data'] = '验证码错误'
+            else:
+                result['data'] = '邮箱不匹配'
     return render(request, 'buyers/register.html', locals())
 
 
