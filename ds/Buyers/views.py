@@ -153,7 +153,6 @@ def register(request):
         message = request.POST.get('message')
         pwd = request.POST.get('password')
         db_email = EmailValid.objects.filter(email_address=email).latest('id')
-        print(db_email.value)
         if (email,) in user:
             result['data'] = '该邮箱已经注册'
         else:
@@ -470,12 +469,50 @@ def shouhuo(request,id):
     orders = Order.objects.filter(user_id=uid)
     return render(request,"buyers/myorder.html",locals())
 
-
+import re
 def findpassword(request):
-    email = request.POST.get("email")
-    message = request.POST.get('message')
-    password = request.POST.get("password")
-    re_password = request.POST.get("re_password")
+    result = {"status": "error", "data": ""}
+
+
     if request.method=="POST":
+        email = request.POST.get("email")
+        message = request.POST.get('message')
+        password = request.POST.get("password")
+        re_password = request.POST.get("re_password")
+        user = Buyer.objects.values_list("email")
+        if not (email,) in user:
+            result['data'] = '该邮箱未注册，请先注册'
+        else:
+            db_email = EmailValid.objects.filter(email_address=email).latest('id')
+            if db_email:
+                if message == db_email.value:
+                    now = time.mktime(
+                        datetime.datetime.now().timetuple()
+                    )
+                    db_now = time.mktime(db_email.times.timetuple())
+                    if now - db_now > 600:
+                        result['data'] = '验证码过期'
+                        db_email.delete()
+                    else:
+                        regex = '^[-_a-zA-Z0-9]{6,10}$';
+                        bold = re.fullmatch(regex,password)
+                        if bold:
+                            if password==re_password:
+                                user = Buyer.objects.filter(email=email).filter().first()
+                                user.password=lockpw(password)
+                                user.save()
+                                return HttpResponseRedirect('/buyers/login/')  # 注册成功跳转到登录页
+                            else:
+                                result['data'] = '验证码错误'
+                                return HttpResponseRedirect('/buyers/findpassword/',locals())
+                        else:
+                            result['data'] = '密码格式错误'
+                            return HttpResponseRedirect('/buyers/findpassword/', locals())
+                else:
+                    result['data'] = '验证码错误'
+            else:
+                result['data'] = '邮箱不匹配'
+
+
 
     return render(request,"buyers/findpassword.html",locals())
