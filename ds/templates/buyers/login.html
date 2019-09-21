@@ -30,7 +30,11 @@
 
 								<div class="form-group text-center m-t-40">
 									<input type="submit" class="btn btn-success" value="登录">
-                                    <p id="ts" style="color: red;">{{ result.data }}</p>
+                                    <p id="ts" style="color: red;">
+                                        {% autoescape off %}
+                                        {{ result.data }}
+                                        {% endautoescape %}
+                                    </p>
 									<p class="small m-t-20">
 										没有账号 ? <a href="{% url 'buyers:register' %}" class="text-success">立即注册</a>
 									</p>

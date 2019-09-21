@@ -80,22 +80,28 @@ def product_details(request,id):
 def blogin(request):
     result = {"status": "error", "data": ""}
     if request.POST and request.method == 'POST':
-        email = request.POST.get('email')
-        print(email)
-        user = Buyer.objects.filter(email=email).first()
-        if user:
-            pwd = lockpw(request.POST.get('password'))
-            if pwd == user.password:
-                user = Buyer.objects.filter(email=email).first()
-                response = HttpResponseRedirect('/buyers/',locals())
-                response.set_cookie('user_id',user.id,max_age=3600)
-                response.set_cookie('username',user.username,max_age=3600)
-                request.session['username']=user.username
-                return response
+            email = request.POST.get('email')
+            print(email)
+            user = Buyer.objects.filter(email=email).first()
+            if user.isactive <5:
+                if user:
+                    pwd = lockpw(request.POST.get('password'))
+                    if pwd == user.password:
+                        user = Buyer.objects.filter(email=email).first()
+                        response = HttpResponseRedirect('/buyers/',locals())
+                        response.set_cookie('user_id',user.id,max_age=3600)
+                        response.set_cookie('username',user.username,max_age=3600)
+                        request.session['username']=user.username
+                        return response
+                    else:
+                        user.isactive+=1
+                        user.save()
+                        result['data'] = '密码错误'
+                else:
+                    result['data'] = '用户名不存在'
             else:
-                result['data'] = '密码错误'
-        else:
-            result['data'] = '用户名不存在'
+                result['data'] = '用户被冻结，请先去 <a href="/buyers/findpassword/" class="text-success">修改密码</a>'
+
 
     return render(request,'buyers/login.html',locals())
 
@@ -494,12 +500,13 @@ def findpassword(request):
                         result['data'] = '验证码过期'
                         db_email.delete()
                     else:
-                        regex = '^[-_a-zA-Z0-9]{6,10}$';
+                        regex = '^.*(?=.{6,16})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$';
                         bold = re.fullmatch(regex,password)
                         if bold:
                             if password==re_password:
                                 user = Buyer.objects.filter(email=email).filter().first()
                                 user.password=lockpw(password)
+                                user.isactive=0
                                 user.save()
                                 return HttpResponseRedirect('/buyers/login/')  # 注册成功跳转到登录页
                             else:
