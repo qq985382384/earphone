@@ -14,6 +14,7 @@ class Address(models.Model):
     phone = models.CharField(max_length = 32)
     username = models.CharField(max_length = 32)
     buyer = models.ForeignKey('Buyer',on_delete = models.DO_NOTHING)
+    num = models.IntegerField(default=0)
 
 class EmailValid(models.Model):
     value = models.CharField(max_length = 32)

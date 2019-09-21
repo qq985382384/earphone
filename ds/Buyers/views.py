@@ -383,7 +383,7 @@ def upload(request):
 @cookieVerify
 def address(request,id):
     buyer = Buyer.objects.filter(id=id).first()
-    address = Address.objects.filter(buyer_id=id)
+    address = Address.objects.filter(buyer_id=id).filter(num=0)
     if request.method=="POST":
         address_add(request,id=id)
 
@@ -409,7 +409,8 @@ def address_add(request,id):
 def address_del(request,aid):
     address1 = Address.objects.filter(id=aid).first()
     id = address1.buyer_id
-    address1.delete()
+    address1.num = 1
+    address1.save()
     print(id)
     buyer = Buyer.objects.filter(id=id).first()
     address = Address.objects.filter(buyer_id=id)
