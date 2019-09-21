@@ -413,7 +413,7 @@ def address_del(request,aid):
     address1.save()
     print(id)
     buyer = Buyer.objects.filter(id=id).first()
-    address = Address.objects.filter(buyer_id=id)
+    address = Address.objects.filter(buyer_id=id).filter(num=0)
     return render(request,"buyers/person_address.html",locals())
 
 
