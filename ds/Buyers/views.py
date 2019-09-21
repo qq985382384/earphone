@@ -210,17 +210,17 @@ def cart(request):
     return render(request,'buyers/cart.html',locals())
 @cookieVerify
 def addcart(request,id):
-    user = BuyCar()
+    user1 = BuyCar()
     userid = request.COOKIES.get('user_id')
     user = Buyer.objects.filter(id=userid).first()
     usergoods = Goods.objects.get(id=int(id))
-    user.goods_id = usergoods.id
-    user.goods_name = usergoods.goods_name
-    user.goods_picture = usergoods.image_set.first().img_path
-    user.goods_price = usergoods.goods_price
-    user.user_id = userid
-    user.goods_num = 1
-    user.save()
+    user1.goods_id = usergoods.id
+    user1.goods_name = usergoods.goods_name
+    user1.goods_picture = usergoods.image_set.first().img_path
+    user1.goods_price = usergoods.goods_price
+    user1.user_id = userid
+    user1.goods_num = 1
+    user1.save()
     return HttpResponseRedirect('/buyers/cart/')
 
 
