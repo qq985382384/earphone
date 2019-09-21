@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^person_order/(\d+)$', views.person_order, name='person_order'),
     url(r'^ordergoods/(\d+)$', views.ordergoods, name='ordergoods'),
     url(r'^shouhuo/(\d+)$', views.shouhuo, name='shouhuo'),
+    url(r'^findpassword/$', views.findpassword, name='findpassword'),
 
 
 ]
