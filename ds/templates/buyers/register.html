@@ -38,6 +38,7 @@ setTimeout(function() {
   function del3() {
      $('#del3').remove();
      $('#sub').removeAttr('disabled')
+     $('#yanzhengma').removeAttr('hidden')
  }
   function del4() {
      $('#del4').remove();
@@ -54,9 +55,11 @@ function check_email() {
     var reg = /^\w+@\w+(\.)\w+$/;
     if (!reg.test($('#email').val())) {
         $('#email').before("<label id=\"del3\" style=\"color: #447e9b;margin-left:45%\">邮箱格式错误</label>")
-        $('#sub').attr('disabled', 'disabled')
+        $('#sub').attr('disabled', 'disabled');
+        $('#yanzhengma').attr('hidden','hidden')
     }
 }
+
 </script>
 
 
@@ -78,19 +81,19 @@ function check_email() {
 							<div class="col-xs-12 col-sm-4 col-sm-push-4">
 								<div class="form-group form-group-default required">
 									<label>用户名</label>
-									<input type="text" name="username" id="username" class="form-control" required onblur="check_name()" onfocus="del1()" />
+									<input type="text" name="username" id="username" class="form-control" placeholder="6~12位字母,数字,下划线" required onblur="check_name()" onfocus="del1()" />
 								</div>
 
 								<div class="form-group form-group-default required">
 									<label>密码</label>
-									<input type="password" name="password" id="password" class="form-control" required onblur="check_password()" onfocus="del2()" />
+									<input type="password" name="password" id="password" class="form-control" required placeholder="6~16位,必须包含大小写字母数字" onblur="check_password()" onfocus="del2()" />
 								</div>
                                 <div class="form-group form-group-default required">
 									<label>Email</label>
 									<input type="email" name="email" id="email" placeholder="邮箱为唯一标识，请认真对待" class="form-control" required onblur="check_email()" onfocus="del3()" />
 								</div>
                                 <div class="form-group form-group-default required">
-									<label>验证码</label><input  type="button" id="yanzhengma" name="yanzhengma" style="border: none;background: white;font-size: 10px" value="点击获取" onclick="settime(this)" />
+									<label>验证码</label><input type="button" id="yanzhengma" name="yanzhengma" style="border: none;background: white;font-size: 10px" value="点击获取" onclick="settime(this)" />
                                     <label style="color: #447e9b;margin-left: 3%" id="stat"></label>
 									<input type="text" name="message" class="form-control" required />
 								</div>
