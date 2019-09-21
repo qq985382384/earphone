@@ -471,4 +471,10 @@ def shouhuo(request,id):
 
 
 def findpassword(request):
+    email = request.POST.get("email")
+    message = request.POST.get('message')
+    password = request.POST.get("password")
+    re_password = request.POST.get("re_password")
+    if request.method=="POST":
+
     return render(request,"buyers/findpassword.html",locals())
