@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^checkpay/$', views.checkpay, name='checkpay'),
     url(r'^details/(\d+)/$', views.product_details, name='details'),
     url(r'^logout/$', views.blogout, name='blogout'),
+    url(r'^person_order2/$', views.person_order2, name='person_order2'),
 
     url(r'^person/$', views.person, name='person'),
     url(r'^person_address/(\d+)$', views.address, name='person_address'),

@@ -24,14 +24,14 @@
             width:40px;
             display: inline-block;
             margin-left: -2px;
-            margin-top:2px
+            margin-top:0;
         }
      .logout {
             font-size: 15px;
             width:40px;
             display: inline-block;
             margin-left: -2px;
-            margin-top:2px
+            margin-top:0;
         }
     </style>
 </head>
@@ -43,9 +43,9 @@
 	<div class="menu-left hidden-xs">
 		<a href="{% url 'buyers:person'  %}" class="logo-left">
             {% if user.portrait %}
-			    <img src="../../../../static/{{ user.portrait }}"  style="height: 100px;"width="100px"/>
+			    <img src="../../../../static/{{ user.portrait }}"  style="height: 100px;width=100px;margin:-15px;margin-left: 0px;"/><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;个人中心</label>
             {% else %}
-                <img src="/static/buyers/img/logo.png">
+                <img src="/static/buyers/img/logo.png" style="margin:-15px;margin-left: 0px;"><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;个人中心</label>
             {% endif %}
 		</a>
 {% if request.session.username %}
@@ -53,9 +53,9 @@
 			<a href="" class="text-primary">
 				<i class="fas fa-user-circle fa-2x"></i>
                 {% if user.username %}
-                <b style="font-size: 8px">{{ user.username }}</b>
+                <b style="font-size: 8px;margin-left: -4px">{{ user.username }}</b>
                 {% else %}
-                    <b style="font-size: 8px">{{ request.session.username }}</b>
+                    <b style="font-size: 8px;">{{ request.session.username }}</b>
 
                 {% endif %}
 			</a>
@@ -70,13 +70,18 @@
 			</a>
 		</div>
 {% endif %}
-		<div class="nav-item">
+		<div class="nav-item" style="margin-top: -50px">
 			<a href="{% url 'buyers:cart' %}" class="text-primary">
 				<i class="fas fa-shopping-bag fa-2x"></i>
 				<span class="badge">{{ allchart }}</span>
 			</a>
 		</div>
-
+		<div style="text-align: center;margin-left: -10px">
+			<a href="{% url 'buyers:person_order2' %}" class="text-primary">
+				<i class="fa fa-align-justify" aria-hidden="true"></i><br>
+                <label style="text-align: center">我的订单</label>
+			</a>
+		</div>
 		<div class="nav-item last">
 			<a href="javascript:void(0);" onclick="openSearch();" class="text-primary">
 				<i class="fas fa-search fa-2x"></i>
@@ -194,154 +199,8 @@
 					</div>
 				</div>
 
-				<div class="col-sm-4 col-md-4 result-box text-sm-center">
-					<div class="col-md-6">
-						<a href="#">
-							<img src="/static/buyers/img/products/product9.png" class="img-responsive" alt="" />
-						</a>
-					</div>
-
-					<div class="col-md-6 result-info">
-						<a href="#">
-							<h4>Staro-One</h4>
-						</a>
-
-						<p>ST-O S2000</p>
-
-						<a href="#" class="btn btn-primary btn-sm"><i class="fas fa-shopping-bag"></i>&nbsp; Buy Now</a>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-md-4 result-box text-sm-center">
-					<div class="col-md-6">
-						<a href="#">
-							<img src="/static/buyers/img/products/product10.png" class="img-responsive" alt="" />
-						</a>
-					</div>
-
-					<div class="col-md-6 result-info">
-						<a href="#">
-							<h4>Staro-One</h4>
-						</a>
-
-						<p>ST-O S3000</p>
-
-						<a href="#" class="btn btn-primary btn-sm"><i class="fas fa-shopping-bag"></i>&nbsp; Buy Now</a>
-					</div>
-				</div>
 			</div>
 
-			<div class="row m-b-20">
-				<div class="col-sm-4 col-md-4 result-box text-sm-center">
-					<div class="col-md-6">
-						<a href="#">
-							<img src="/static/buyers/img/products/product3.png" class="img-responsive" alt="" />
-						</a>
-					</div>
-
-					<div class="col-md-6 result-info">
-						<a href="#">
-							<h4>Staro-Two</h4>
-						</a>
-
-						<p>ST-T A100</p>
-
-						<a href="#" class="btn btn-primary btn-sm"><i class="fas fa-shopping-bag"></i>&nbsp; Buy Now</a>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-md-4 result-box text-sm-center">
-					<div class="col-md-6">
-						<a href="#">
-							<img src="/static/buyers/img/products/product2.png" class="img-responsive" alt="" />
-						</a>
-					</div>
-
-					<div class="col-md-6 result-info">
-						<a href="#">
-							<h4>Staro-Two</h4>
-						</a>
-
-						<p>ST-T A100</p>
-
-						<a href="#" class="btn btn-primary btn-sm"><i class="fas fa-shopping-bag"></i>&nbsp; Buy Now</a>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-md-4 result-box text-sm-center">
-					<div class="col-md-6">
-						<a href="#">
-							<img src="/static/buyers/img/products/product1.png" class="img-responsive" alt="" />
-						</a>
-					</div>
-
-					<div class="col-md-6 result-info">
-						<a href="#">
-							<h4>Staro-Two</h4>
-						</a>
-
-						<p>ST-T A100</p>
-
-						<a href="#" class="btn btn-primary btn-sm"><i class="fas fa-shopping-bag"></i>&nbsp; Buy Now</a>
-					</div>
-				</div>
-			</div>
-
-			<div class="row m-b-20">
-				<div class="col-sm-4 col-md-4 result-box text-sm-center">
-					<div class="col-md-6">
-						<a href="#">
-							<img src="/static/buyers/img/products/product4.png" class="img-responsive" alt="" />
-						</a>
-					</div>
-
-					<div class="col-md-6 result-info">
-						<a href="#">
-							<h4>Staro-Four</h4>
-						</a>
-
-						<p>ST-F M200</p>
-
-						<a href="#" class="btn btn-primary btn-sm"><i class="fas fa-shopping-bag"></i>&nbsp; Buy Now</a>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-md-4 result-box text-sm-center">
-					<div class="col-md-6">
-						<a href="#">
-							<img src="/static/buyers/img/products/product6.png" class="img-responsive" alt="" />
-						</a>
-					</div>
-
-					<div class="col-md-6 result-info">
-						<a href="#">
-							<h4>Staro-Four</h4>
-						</a>
-
-						<p>ST-F M200</p>
-
-						<a href="#" class="btn btn-primary btn-sm"><i class="fas fa-shopping-bag"></i>&nbsp; Buy Now</a>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-md-4 result-box text-sm-center">
-					<div class="col-md-6">
-						<a href="#">
-							<img src="/static/buyers/img/products/product7.png" class="img-responsive" alt="" />
-						</a>
-					</div>
-
-					<div class="col-md-6 result-info">
-						<a href="#">
-							<h4>Staro-Four</h4>
-						</a>
-
-						<p>ST-F M200</p>
-
-						<a href="#" class="btn btn-primary btn-sm"><i class="fas fa-shopping-bag"></i>&nbsp; Buy Now</a>
-					</div>
-				</div>
-			</div>
 
 			<div class="row">
 				<div class="col-sm-12 text-center">

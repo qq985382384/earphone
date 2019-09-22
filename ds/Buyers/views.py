@@ -333,7 +333,7 @@ def checkpay(request):
     order = Order.objects.get(order_num=orderid)
     order.order_statue=2
     order.save()
-    return HttpResponseRedirect('/buyers/person_order/')
+    return HttpResponseRedirect('/buyers/person_order2/')
 
 
 def payverify(request,id):
@@ -524,3 +524,10 @@ def findpassword(request):
 
 
     return render(request,"buyers/findpassword.html",locals())
+
+
+def person_order2(request):
+    userid = request.COOKIES.get('user_id')
+    user = Buyer.objects.filter(pk=userid).first()
+    orders = Order.objects.filter(user_id=int(userid))
+    return render(request,'buyers/myorder2.html',locals())
