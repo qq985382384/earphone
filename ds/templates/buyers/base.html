@@ -18,6 +18,62 @@
 	<link rel="stylesheet" href="/static/buyers/css/style.css" />
 	<link rel="stylesheet" href="/static/buyers/css/responsive.css" />
 	<link rel="stylesheet" href="/static/buyers/css/ic-helpers.min.css" />
+<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js" xmlns="http://www.w3.org/1999/html"
+        xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"></script>
+<script type="text/javascript">
+    function search() {
+        var gjz =$('#gjz').val()
+        $.ajax(
+                {
+                    url:'/buyers/search/?gjz='+gjz,  <!--传给传给视图函数的请求-->
+                    type:'get',
+                    data:'',
+                    dataType:'json',
+                    success:function (data) {
+                        data1 = JSON.parse(data.data)
+                        var m = Object.keys(data1).length
+                        $("#asdfg").empty()
+
+                        for (var i=0;i<m;i++){
+                            var n =i+1
+                            $("#h4").empty()
+                            $("#h4").append('<h4>we found '+n+' products for you:</h4>')
+                            var id = data1[i]['id']
+                            $("#asdfg").append(' <div class="col-sm-4 col-md-4 result-box text-sm-center">\n' +
+                                '\t\t\t\t\t<div class="col-md-6">\n' +
+                                '\t\t\t\t\t\t<a href="http://127.0.0.1:8080/buyers/details/'+data1[i]['id']+'">\n' +
+                                '\t\t\t\t\t\t\t<img src="/static/buyers/img/products/product8.png" class="img-responsive" alt="" />\n' +
+                                '\t\t\t\t\t\t</a>\n' +
+                                '\t\t\t\t\t</div>\n' +
+                                '\n' +
+                                '\t\t\t\t\t<div class="col-md-6 result-info">\n' +
+                                '\t\t\t\t\t\t<a href="http://127.0.0.1:8080/buyers/details/'+data1[i]['id']+'">\n' +
+                                '\t\t\t\t\t\t\t<h4>'+data1[i]['goods_name']+'</h4>\n' +
+                                '\t\t\t\t\t\t</a>\n' +
+                                '\n' +
+                                '\t\t\t\t\t\t<p>'+data1[i]['goods_price']+'</p>\n' +
+                                '\n' +
+                                '\t\t\t\t\t\t<a href="http://127.0.0.1:8080/buyers/details/'+data1[i]['id']+'" class="btn btn-primary btn-sm"><i class="fas fa-shopping-bag"></i>&nbsp; Buy Now</a>\n' +
+                                '\t\t\t\t\t</div>\n' +
+                                '\t\t\t\t</div>'
+
+
+
+                            )
+                        }
+
+                    }}
+
+
+
+            )
+
+    }
+
+
+
+
+</script>
  <style>
         .login {
             font-size: 15px;
@@ -160,10 +216,10 @@
 						<div class="form-group">
 							<div class="col-sm-11 center-block">
 								<div class="input-group">
-									<input type="text" class="form-control search-input" placeholder="Start typing..." />
+									<input type="text" id="gjz" class="form-control search-input" placeholder="Start typing..." />
 
 									<span class="input-group-btn">
-										<button type="submit" class="btn btn-primary search-button">Go!</button>
+										<button type="button" class="btn btn-primary search-button" id="serach" onclick="search()">Go!</button>
 									</span>
 								</div>
 							</div>
@@ -175,36 +231,21 @@
 			</div>
 
 			<div class="row m-t-70 m-b-70">
-				<div class="col-sm-12 text-center">
-					<h4>we found 3 products for you:</h4>
+				<div class="col-sm-12 text-center" id="h4">
+
 				</div>
 			</div>
 
-			<div class="row m-b-20">
-				<div class="col-sm-4 col-md-4 result-box text-sm-center">
-					<div class="col-md-6">
-						<a href="#">
-							<img src="/static/buyers/img/products/product8.png" class="img-responsive" alt="" />
-						</a>
-					</div>
+			<div class="row m-b-20" id="asdfg">
 
-					<div class="col-md-6 result-info">
-						<a href="#">
-							<h4>Staro-One</h4>
-						</a>
 
-						<p>ST-O S1000</p>
-
-						<a href="#" class="btn btn-primary btn-sm"><i class="fas fa-shopping-bag"></i>&nbsp; Buy Now</a>
-					</div>
-				</div>
 
 			</div>
 
 
 			<div class="row">
 				<div class="col-sm-12 text-center">
-					<a href="#" class="text-primary link-underline">Show all results</a>
+					<a href="{% url 'buyers:products' 0 %}" class="text-primary link-underline">Show all results</a>
 				</div>
 			</div>
 		</div>
@@ -217,4 +258,5 @@
 	<script src="/static/buyers/js/global.js"></script>
 
 </body>
+
 </html>

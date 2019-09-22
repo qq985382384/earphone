@@ -534,3 +534,19 @@ def person_order2(request):
     user = Buyer.objects.filter(pk=userid).first()
     orders = Order.objects.filter(user_id=int(userid))
     return render(request,'buyers/myorder2.html',locals())
+
+import json
+def search(request):
+    result = {"status": "error", "data": ""}
+    gjz = request.GET.get('gjz')
+    if gjz:
+
+        products = Goods.objects.filter(goods_name__contains=gjz)
+        print(products)
+        abc = json.dumps(list(products.values()))
+        result['data'] = abc
+    else:
+        products = Goods.objects.filter().all()
+        abc = json.dumps(list(products.values()))
+        result['data'] = abc
+    return JsonResponse(result)
