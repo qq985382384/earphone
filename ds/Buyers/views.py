@@ -407,7 +407,7 @@ def address_add(request,id):
     address_new.username=username
     address_new.address=address
     address_new.save()
-    return render(request,"buyers/person_address.html",locals())
+    return None
 
 @cookieVerify
 def address_del(request,aid):
