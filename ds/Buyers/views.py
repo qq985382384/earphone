@@ -223,7 +223,7 @@ def addcart(request,id):
     user1.save()
     return HttpResponseRedirect('/buyers/cart/')
 
-
+@cookieVerify
 def delcart(request,id):
     userId = request.COOKIES.get('user_id')
     user = Buyer.objects.filter(id=userId).first()
@@ -528,9 +528,16 @@ def findpassword(request):
 
     return render(request,"buyers/findpassword.html",locals())
 
-
+@cookieVerify
 def person_order2(request):
     userid = request.COOKIES.get('user_id')
     user = Buyer.objects.filter(pk=userid).first()
     orders = Order.objects.filter(user_id=int(userid))
     return render(request,'buyers/myorder2.html',locals())
+
+@cookieVerify
+def ordergoods2(request,id):
+    userid = request.COOKIES.get('user_id')
+    user = Buyer.objects.filter(pk=userid).first()
+    ordergood = OrderGoods.objects.filter(order_id=id)
+    return render(request, "buyers/ordergoods2.html", locals())
