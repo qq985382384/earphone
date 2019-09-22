@@ -237,6 +237,7 @@ def delcart(request,id):
 顺序与数据库的顺序是一致的，
 通过for循环递增的i，来依次取出数量，存入数据库。
 '''
+@cookieVerify
 def order(request):
     alltotal = 0
     data = []
@@ -256,7 +257,7 @@ def order(request):
 
     return render(request, 'buyers/enterorder.html', locals())
 
-
+@cookieVerify
 def pay(request):
 
 
@@ -302,7 +303,7 @@ def pay(request):
             goods.goods_picture=g.goods_picture
             goods.order = order
             goods.save()
-        cargoods = BuyCar.objects.get(user=int(userId))
+        cargoods = BuyCar.objects.filter(user_id=userId)
         cargoods.delete()
     return render(request,'buyers/enterpay.html',locals())
 
@@ -330,7 +331,7 @@ def paydata(order_num,count):
     )
 
     return  "https://openapi.alipaydev.com/gateway.do?" + order_string
-
+@cookieVerify
 def checkpay(request):
     orderid = request.GET.get('out_trade_no')
     order = Order.objects.get(order_num=orderid)
@@ -338,7 +339,7 @@ def checkpay(request):
     order.save()
     return HttpResponseRedirect('/buyers/person_order2/')
 
-
+@cookieVerify
 def payverify(request,id):
     order = Order.objects.get(id=int(id))
     order_num = order.order_num
@@ -408,7 +409,7 @@ def address_add(request,id):
     address_new.save()
     return render(request,"buyers/person_address.html",locals())
 
-
+@cookieVerify
 def address_del(request,aid):
     address1 = Address.objects.filter(id=aid).first()
     id = address1.buyer_id
@@ -419,7 +420,7 @@ def address_del(request,aid):
     address = Address.objects.filter(buyer_id=id).filter(num=0)
     return render(request,"buyers/person_address.html",locals())
 
-
+@cookieVerify
 def address_change(request,aid):
     address1 = Address.objects.filter(id=aid).first()
     id = address1.buyer_id
@@ -437,7 +438,7 @@ def address_change(request,aid):
 
     return render(request,"buyers/person_change.html",locals())
 
-
+@cookieVerify
 def person_mima(request,id):
     result = {"status": "error", "data": ""}
     user = Buyer.objects.filter(id=id).first()
@@ -459,17 +460,17 @@ def person_mima(request,id):
             result['data'] = "旧密码错误"
     return render(request,"buyers/person_mima.html",locals())
 
-
+@cookieVerify
 def person_order(request,id):
     orders = Order.objects.filter(user_id=id)
     return render(request,"buyers/myorder.html",locals())
 
-
+@cookieVerify
 def ordergoods(request,id):
     ordergood = OrderGoods.objects.filter(order_id=id)
     return render(request,"buyers/ordergoods.html",locals())
 
-
+@cookieVerify
 def shouhuo(request,id):
 
     order = Order.objects.filter(id=id).first()
