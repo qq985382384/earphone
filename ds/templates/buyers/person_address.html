@@ -19,6 +19,7 @@
       </span>
     </div>
     <div class="x-body">
+    <form method="post" action="{% url "buyers:person_address" id %}">
         {% csrf_token %}
       <table class="layui-table">
         <thead>
@@ -58,9 +59,8 @@
             </form>
             </tr>
       </table>
-
     </div>
-   
+
   </body>
 
 </html>
