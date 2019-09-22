@@ -242,6 +242,8 @@ def order(request):
     data = []
     userId = request.COOKIES.get('user_id')
     user = Buyer.objects.filter(id=userId).first()
+    address1 = Address.objects.filter(buyer_id=user).filter(num=0)
+    print(address1)
     if request.method == 'POST' and request.POST:
         count = request.POST.getlist('quantity')
         for i in range(0,len(count)):
@@ -256,6 +258,7 @@ def order(request):
 
 
 def pay(request):
+
 
     if request.POST and request.method == 'POST':
         alltotal = 0

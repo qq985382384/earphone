@@ -2,7 +2,10 @@
 {% load static %}
 {% block content %}
 	<!-- Content -->
- <script>
+<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js" xmlns="http://www.w3.org/1999/html"
+        xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"></script>
+<script type="text/javascript">
+
         $('#sf').click(function () {
             var alltotal= $('#alltotal').text();
             $('#alltotal').text(Number(alltotal)+15)
@@ -10,7 +13,24 @@
         $('#free').click(function () {
             var alltotal= $('#alltotal').text();
             $('#alltotal').text(Number(alltotal)-15)
-        })
+        });
+
+
+</script>
+    <script>
+
+       function add() {
+           var p = $('input[name="radio"]:checked').val()
+           var q = p.split("/")
+
+           $("#username").removeAttr('value')
+           $("#address").removeAttr('value')
+           $("#phone").removeAttr('value')
+           $("#username").attr('value',q[0])
+           $("#address").attr('value',q[1])
+           $("#phone").attr('value',q[2])
+       }
+
     </script>
 	<div class="content-right">
 		<div class="container m-t-100 m-b-100">
@@ -59,22 +79,31 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<h3 class="m-tb-30 text-xs-center">送货详情</h3>
+                                <div class="form-group form-group-default required" style="height: 40px">
+									<label style="height: 40px">选择邮寄地址: </label>&nbsp;&nbsp;&nbsp;&nbsp;
+
+								</div>
+                                {% for address2 in address1 %}
+
+                                    <input type="radio" name="radio" id="radio" onchange="add()" value="{{ address2.username }}/{{ address2.phone }}/{{ address2.address }}" >{{ address2.username }}/{{ address2.phone }}/{{ address2.address }}
+                                    <br>
+                                    {% endfor %}
 
 								<div class="form-group form-group-default required">
 									<label>收货人</label>
-									<input type="text" name="username" class="form-control" required />
+									<input type="text" name="username" class="form-control" id="username" required  />
 								</div>
 
 
 								<div class="form-group form-group-default required">
 									<label>详细地址</label>
-									<input type="text" name="address" class="form-control" required />
+									<input type="text" name="address" class="form-control" id="address" required />
 								</div>
 
 
 								<div class="form-group form-group-default">
 									<label>联系方式</label>
-									<input type="text" name="phone" class="form-control" />
+									<input type="text" name="phone" class="form-control" id="phone" />
 								</div>
 							</div>
 						</div>
