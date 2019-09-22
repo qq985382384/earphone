@@ -395,11 +395,11 @@ def address(request,id):
 @cookieVerify
 def address_add(request,id):
     username = request.POST.get("username")
-    print(username)
+
     phone = request.POST.get("phone")
-    print(phone)
+
     address = request.POST.get("address")
-    print(address)
+
     address_new = Address()
     address_new.buyer_id = id
     address_new.phone=phone
