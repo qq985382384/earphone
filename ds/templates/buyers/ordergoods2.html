@@ -1,0 +1,69 @@
+{% extends 'buyers/base.html' %}
+{% load static %}
+{% block content %}
+    <meta charset="UTF-8">
+    <title>EARPHONE管理后台</title>
+    <link rel="stylesheet" href="/static/shops/css/font.css">
+    <link rel="stylesheet" href="/static/shops/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/shops/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/shops/js/xadmin.js"></script>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+	<title>{% block title %}{% endblock %}</title>
+
+	<meta name="author" content="" />
+	<meta name="description" content="" />
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600" />
+
+	<link rel="stylesheet" href="/static/buyers/plugins/bootstrap/bootstrap.min.css" />
+	<link rel="stylesheet" href="/static/buyers/plugins/font-awesome/css/all.css" />
+
+	<link rel="stylesheet" href="/static/buyers/css/style.css" />
+	<link rel="stylesheet" href="/static/buyers/css/responsive.css" />
+	<link rel="stylesheet" href="/static/buyers/css/ic-helpers.min.css" />
+    <div  style="text-align: center">
+    <div>&nbsp;</div>
+      <span class="layui-breadcrumb">
+        <a href="{% url 'buyers:person_order2' %}">订单管理</a>
+        <a href="{% url 'buyers:bindex' %}">回首页</a>
+      </span>
+    </div>
+    <div class="x-body">
+        {% csrf_token %}
+      <table class="layui-table" style="width: 90%; margin-left: 8%;">
+        <thead>
+          <tr>
+		    <th>商品id</th>
+            <th>商品名称</th>
+            <th>商品单价</th>
+            <th>购买数量</th>
+            <th>商品展示</th>
+            <th>订单id</th>
+
+
+			</tr>
+        </thead>
+          {% for goods in ordergood %}
+        <tbody>
+          <tr>
+		    <th>{{ goods.id }}</th>
+            <th>{{goods.good_name}}</th>
+            <th>{{goods.good_price}}</th>
+            <th>{{goods.good_num}}</th>
+            <th><img src="/static/{{ goods.goods_picture }}"></th>
+            <th>{{goods.order_id}}</th>
+
+
+          </tr>
+        </tbody>
+          {% endfor %}
+      </table>
+
+    </div>
+
+  </body>
+
+{% endblock %}

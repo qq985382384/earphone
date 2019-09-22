@@ -106,7 +106,7 @@
 		</a>
 {% if request.session.username %}
 		<div class="nav-item">
-			<a href="" class="text-primary">
+			<a href="{% url 'buyers:person'  %}" class="text-primary">
 				<i class="fas fa-user-circle fa-2x"></i>
                 {% if user.username %}
                 <b style="font-size: 8px;margin-left: -4px">{{ user.username }}</b>
