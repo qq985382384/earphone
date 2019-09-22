@@ -535,7 +535,7 @@ def person_order2(request):
     orders = Order.objects.filter(user_id=int(userid))
     return render(request,'buyers/myorder2.html',locals())
 
-<<<<<<< HEAD
+
 import json
 def search(request):
     result = {"status": "error", "data": ""}
@@ -551,11 +551,11 @@ def search(request):
         abc = json.dumps(list(products.values()))
         result['data'] = abc
     return JsonResponse(result)
-=======
+
 @cookieVerify
 def ordergoods2(request,id):
     userid = request.COOKIES.get('user_id')
     user = Buyer.objects.filter(pk=userid).first()
     ordergood = OrderGoods.objects.filter(order_id=id)
     return render(request, "buyers/ordergoods2.html", locals())
->>>>>>> 9a44e713e09e35c81c83f1a21700870e15a0b416
+
