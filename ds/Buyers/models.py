@@ -7,7 +7,7 @@ class Buyer(models.Model):
     password = models.CharField(max_length = 32)
     signature = models.CharField(max_length=200, blank=True, null=True)
     portrait = models.CharField(max_length=100, blank=True, null=True)
-    isactive = models.IntegerField(blank=True, null=True)
+    isactive = models.IntegerField(blank=True, null=True,default=0)
 
 class Address(models.Model):
     address = models.TextField()
@@ -35,8 +35,8 @@ class Order(models.Model):
     order_time = models.DateTimeField(auto_now=True)
     order_statue = models.CharField(max_length=32)
     total = models.FloatField()
-    user = models.ForeignKey('Buyer',on_delete=models.DO_NOTHING)
-    order_address = models.ForeignKey('Address',on_delete=models.DO_NOTHING)
+    user = models.ForeignKey('Buyer',on_delete=models.CASCADE)
+    order_address = models.ForeignKey('Address',on_delete=models.CASCADE)
 
 
 class OrderGoods(models.Model):
@@ -45,4 +45,4 @@ class OrderGoods(models.Model):
     good_price = models.FloatField()
     good_num = models.IntegerField()
     goods_picture = models.ImageField()
-    order = models.ForeignKey('Order',on_delete=models.DO_NOTHING)
+    order = models.ForeignKey('Order',on_delete=models.CASCADE)

@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from datetime import timedelta
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -23,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'p-v@s89y7$y#%3^o54urzri5%jqk2(!*xfd43p+3v^sy7@et7m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -41,6 +43,9 @@ INSTALLED_APPS = [
     'Buyers',
     'ckeditor',
     'ckeditor_uploader',
+    'celery',
+    'django_celery_results'
+
 ]
 
 MIDDLEWARE = [
@@ -147,3 +152,36 @@ CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.j
 APP_PRIVATE_KEY = open(os.path.join(BASE_DIR,'tools/app_private_key.pem')).read()
 ALIPAY_PUBLIC_KEY = open(os.path.join(BASE_DIR,'tools/alipay_public_key.pem')).read()
 APPID = '2016101300676110'
+
+#缓存
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/14",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PICKLE_VERSION": -1,
+        }
+    }
+}
+#APPEND_SLASH=False
+
+#celery
+
+#celery
+#任务队列
+BROKER_URL= 'redis://127.0.0.1:6379/6'
+#backend使用的django orm
+CELERY_RESULT_BACKEND = 'django-db'
+
+#序列化和反序列化使用json
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+#定时任务
+CELERYBEAT_SCHEDULE = {
+    'schedule-test': {
+        'task':'App.tasks.hello',
+        'schedule': timedelta(seconds=3),'args': (2,)
+    },
+}

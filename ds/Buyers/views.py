@@ -1,15 +1,19 @@
 ﻿import os
-
+import time
+import datetime
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 from django.db.models import Count
 from django.shortcuts import render,HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives
 from django.http import JsonResponse, HttpResponse
 import random,datetime,time,hashlib
-
+import redis
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from Buyers.models import *
+from Buyers.mythrottle import VisitThrottle
 from Shop.models import Goods, Types
 from Shop.tools.uploads import FileUpload
 from ds import settings
@@ -40,9 +44,10 @@ def index(request):
     count = BuyCar.objects.filter(user_id=userid).aggregate(num=Count('user_id'))
     allcart = count['num']
     user = Buyer.objects.filter(id = userid).first()
+    products = Types.objects.all()
     return render(request,'buyers/index.html',locals())
 
-
+@cache_page(30)
 def products(request,id):
     userid = request.COOKIES.get('user_id')
     user = Buyer.objects.filter(id=userid).first()
@@ -50,21 +55,25 @@ def products(request,id):
 
     id = int(id)
     if id == 0:
+
         type = {'label':'全部耳机','description':'所有商品，尽情挑选'}
         goods = Goods.objects.all()
     else:
+        products = Types.objects.all()
         type = Types.objects.get(id=id) #取出这个类型的详情
         goods = Goods.objects.filter(types=id) # 去除这个类型的全部商品
     data = []
     for i in goods:
         img = i.image_set.first().img_path #取这个商品的第一张图片路径
         data.append({'img':img,'goods':i}) # 将每个商品的信息与图片写入字典data中
-    return render(request,'buyers/products.html', {'data':data,'type':type,'user':user})
+    products = Types.objects.all()
+    return render(request,'buyers/products.html', {'data':data,'type':type,'user':user,'products':products})
 
 def product_details(request,id):
 
     id = int(id)
     goods = Goods.objects.get(id=id)
+    cache.set('goosd',goods,30)
     imgs = goods.image_set.all()
     showGoods = Goods.objects.all().order_by('-goods_now_price')[0:3]
     data = []
@@ -73,7 +82,7 @@ def product_details(request,id):
         data.append({'img':img,'goods':i}) #取出每个商品的信息与图片写入字典
     userid = request.COOKIES.get('user_id')
     user = Buyer.objects.filter(id=userid).first()
-
+    products = Types.objects.all()
     return render(request,'buyers/product-details.html',locals())
 
 
@@ -102,7 +111,7 @@ def blogin(request):
             else:
                 result['data'] = '用户被冻结，请先去 <a href="/buyers/findpassword/" class="text-success">修改密码</a>'
 
-
+    products = Types.objects.all()
     return render(request,'buyers/login.html',locals())
 
 def getRandomData():
@@ -183,6 +192,7 @@ def register(request):
                     result['data'] = '验证码错误'
             else:
                 result['data'] = '邮箱不匹配'
+    products = Types.objects.all()
     return render(request, 'buyers/register.html', locals())
 
 
@@ -207,6 +217,7 @@ def cart(request):
         total = i.goods_num * i.goods_price
         alltotal += total
         data.append({'total':total,'goods':i,'js':goods.goods_id})
+    products = Types.objects.all()
     return render(request,'buyers/cart.html',locals())
 @cookieVerify
 def addcart(request,id):
@@ -221,6 +232,7 @@ def addcart(request,id):
     user1.user_id = userid
     user1.goods_num = 1
     user1.save()
+    products = Types.objects.all()
     return HttpResponseRedirect('/buyers/cart/')
 
 @cookieVerify
@@ -229,6 +241,7 @@ def delcart(request,id):
     user = Buyer.objects.filter(id=userId).first()
     goods = BuyCar.objects.get(user=int(userId),id=int(id))
     goods.delete()
+    products = Types.objects.all()
     return HttpResponseRedirect('/buyers/cart/')
 
 '''
@@ -239,6 +252,7 @@ def delcart(request,id):
 '''
 @cookieVerify
 def order(request):
+
     alltotal = 0
     data = []
     userId = request.COOKIES.get('user_id')
@@ -254,7 +268,7 @@ def order(request):
             total = int(buycar.goods_price)*int(buycar.goods_num)
             data.append({'total':total,'goods':buycar})
             alltotal += total
-
+    products = Types.objects.all()
     return render(request, 'buyers/enterorder.html', locals())
 
 @cookieVerify
@@ -272,13 +286,18 @@ def pay(request):
             total = int(goods.goods_price) * int(goods.goods_num)
             goods_list.append({'total':total,'goods':goods})
             alltotal+=total
-
-        address = Address()
-        address.address = request.POST.get('address')
-        address.username = request.POST.get('username')
-        address.phone = request.POST.get('phone')
-        address.buyer = Buyer.objects.get(id=userId)
-        address.save()
+        buyer_address = Address.objects.filter(user=userId).values_list('buyer__address__address')
+        buyer_phone = Address.objects.filter(user=userId).values_list('buyer__address__phone')
+        buyer_name = Address.objects.filter(user=userId).values_list('buyer__address__username')
+        if request.POST.get('address') in buyer_address and request.POST.get('username') in buyer_name and  request.POST.get('phone') in buyer_phone:
+            pass
+        else:
+            address = Address()
+            address.address = request.POST.get('address')
+            address.username = request.POST.get('username')
+            address.phone = request.POST.get('phone')
+            address.buyer = Buyer.objects.get(id=userId)
+            address.save()
 
         #在订单表中生成订单
         order = Order()
@@ -305,6 +324,7 @@ def pay(request):
             goods.save()
         cargoods = BuyCar.objects.filter(user_id=userId)
         cargoods.delete()
+    products = Types.objects.all()
     return render(request,'buyers/enterpay.html',locals())
 
 #支付跳转函数
@@ -329,7 +349,7 @@ def paydata(order_num,count):
         return_url='http://127.0.0.1:8000/buyers/checkpay',
         notify_url=None  # 可选, 不填则使用默认notify url
     )
-
+    products = Types.objects.all()
     return  "https://openapi.alipaydev.com/gateway.do?" + order_string
 @cookieVerify
 def checkpay(request):
@@ -337,6 +357,7 @@ def checkpay(request):
     order = Order.objects.get(order_num=orderid)
     order.order_statue=2
     order.save()
+    products = Types.objects.all()
     return HttpResponseRedirect('/buyers/person_order2/')
 
 @cookieVerify
@@ -345,6 +366,7 @@ def payverify(request,id):
     order_num = order.order_num
     order_count = order.total
     url = paydata(order_num,order_count)
+    products = Types.objects.all()
     return HttpResponseRedirect(url)
 
 
@@ -435,7 +457,7 @@ def address_change(request,aid):
         address1.phone = phone
         address1.username = username
         address1.save()
-
+    products = Types.objects.all()
     return render(request,"buyers/person_change.html",locals())
 
 @cookieVerify
@@ -458,16 +480,19 @@ def person_mima(request,id):
                 return render(request, "buyers/person_mima.html", locals())
         else:
             result['data'] = "旧密码错误"
+    products = Types.objects.all()
     return render(request,"buyers/person_mima.html",locals())
 
 @cookieVerify
 def person_order(request,id):
     orders = Order.objects.filter(user_id=id)
+    products = Types.objects.all()
     return render(request,"buyers/myorder.html",locals())
 
 @cookieVerify
 def ordergoods(request,id):
     ordergood = OrderGoods.objects.filter(order_id=id)
+    products = Types.objects.all()
     return render(request,"buyers/ordergoods.html",locals())
 
 @cookieVerify
@@ -478,6 +503,7 @@ def shouhuo(request,id):
     order.save()
     uid = order.user_id
     orders = Order.objects.filter(user_id=uid)
+    products = Types.objects.all()
     return render(request,"buyers/myorder.html",locals())
 
 import re
@@ -560,3 +586,15 @@ def ordergoods2(request,id):
     ordergood = OrderGoods.objects.filter(order_id=id)
     return render(request, "buyers/ordergoods2.html", locals())
 
+from .tasks import *
+def test1(request):
+
+    # if cache.get('product'):
+    #
+    #     products = cache.get('product')
+    # else:
+    #     print("c")
+    #     products = Goods.objects.filter().all()
+    #     cache.set("products",products)
+    hello.delay(5)
+    return render(request, "buyers/test.html", locals())

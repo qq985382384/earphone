@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="earphone" uuid="d6b130a8-f44d-4ab1-bb20-be0d68d38d35">
+    <data-source source="LOCAL" name="MySQL - earphone@193.112.217.30" uuid="bfdcb755-64e6-4e03-9116-d4c840c6809e">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://193.112.217.30     :3306/earphone</jdbc-url>
+      <jdbc-url>jdbc:mysql://193.112.217.30:3306/earphone</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="CONVERT_TO_NULL" />

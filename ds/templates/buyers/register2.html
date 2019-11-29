@@ -1,0 +1,277 @@
+{% extends 'buyers/base.html' %}
+{% block title %}注册{% endblock %}
+{% block content %}
+	<!-- Content -->
+<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+var countdown=60;
+function settime(obj) {
+    if (countdown == 0) {
+        obj.removeAttribute("disabled");
+        obj.value="重新发送";
+        countdown = 60;
+        return;
+    } else {
+        obj.setAttribute("disabled", true);
+        obj.value="重新发送(" + countdown + ")";
+        countdown--;
+    }
+setTimeout(function() {
+    settime(obj) }
+    ,1000)
+}
+ function check_name() {
+    var reg = /^[-_a-zA-Z0-9]{4,12}$/;
+     if (!reg.test($('#username').val())){
+        $('#username').before("<label id=\"del1\" style=\"color: #447e9b;margin-left: 40%\">用户名格式错误</label>")
+        $('#sub').attr('disabled','disabled')
+     }
+ }
+ function del1() {
+     $('#del1').remove();
+     $('#sub').removeAttr('disabled')
+ }
+  function del2() {
+     $('#del2').remove();
+     $('#sub').removeAttr('disabled')
+ }
+  function del3() {
+     $('#del3').remove();
+     $('#sub').removeAttr('disabled')
+     $('#yanzhengma').removeAttr('hidden')
+ }
+  function del4() {
+     $('#del4').remove();
+     $('#sub').removeAttr('disabled')
+ }
+function check_password() {
+    var reg = /^.*(?=.{6,16})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/;
+    if (!reg.test($('#password').val())) {
+        $('#password').before("<label id=\"del2\" style=\"color: #447e9b;margin-left:12%\">密码必须同时包含大小写数字</label>")
+        $('#sub').attr('disabled', 'disabled')
+    }
+}
+function check_email() {
+    var reg = /^\w+@\w+(\.)\w+$/;
+    if (!reg.test($('#email').val())) {
+        $('#email').before("<label id=\"del3\" style=\"color: #447e9b;margin-left:45%\">邮箱格式错误</label>")
+        $('#sub').attr('disabled', 'disabled');
+        $('#yanzhengma').attr('hidden','hidden')
+    }
+}
+
+</script>
+
+
+	<div class="content-right">
+		<div class="container m-t-100 m-b-100">
+			<div class="row">
+				<div class="col-sm-12">
+					<h1 class="text-center">Register</h1>
+
+					<div class="separator-three"></div>
+				</div>
+
+				<div class="m-b-70 clearfix hidden-xs hidden-sm"></div>
+
+				<div class="col-sm-12 m-t-70">
+					<form method="post" id="form" action="{% url 'buyers:register' %}">
+                        {% csrf_token %}
+						<div class="row">
+							<div class="col-xs-12 col-sm-4 col-sm-push-4">
+								<div class="form-group form-group-default required">
+									<label>用户名</label>
+									<input type="text" name="username" id="username" class="form-control" placeholder="6~12位字母,数字,下划线" required onblur="check_name()" onfocus="del1()" />
+								</div>
+
+								<div class="form-group form-group-default required">
+									<label>密码</label>
+									<input type="password" name="password" id="password" class="form-control" required placeholder="6~16位,必须包含大小写字母数字" onblur="check_password()" onfocus="del2()" />
+								</div>
+                                <div class="form-group form-group-default required">
+									<label>Email</label>
+									<input type="email" name="email" id="email" placeholder="邮箱为唯一标识，请认真对待" class="form-control" required onblur="check_email()" onfocus="del3()" />
+								</div>
+                                <div class="form-group form-group-default required">
+									<label>验证码</label><input type="button" id="yanzhengma" name="yanzhengma" style="border: none;background: white;font-size: 10px" value="点击获取" onclick="settime(this)" />
+                                    <label style="color: #447e9b;margin-left: 3%" id="stat"></label>
+									<input type="text" name="message" class="form-control" required />
+								</div>
+
+								<div class="form-group text-center m-t-40">
+									<button type="submit" id="sub" class="btn btn-success" onmouseover="check()" onmouseout="sub()" ><i class="fas fa-unlock"></i>&nbsp; 注册</button>
+                                    <p id="ts" style="color: red;">{{ result.data }}</p>
+									<p class="small m-t-20">
+										已有账号? <a href="{% url 'buyers:blogin' %}" class="text-success">登录</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="m-b-70 clearfix hidden-xs hidden-sm"></div>
+			</div>
+		</div>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    $(function () {
+        $('#yanzhengma').click(function () {
+            email = $('#email').val();
+            $.ajax(
+                {
+                    url:'/sendmessage/?email='+email,  <!--传给传给视图函数的请求-->
+                    type:'get',
+                    data:'',
+                    success:function (data) {
+                         $('#stat').text(data['data'])
+                    }
+                }
+            )
+        })
+    });
+</script>
+		<!-- Footer -->
+		<div class="container-fluid footer">
+			<div class="row m-0">
+				<div class="col-sm-12">
+					<div class="container">
+						<div class="row">
+							<div class="col-xs-12 col-sm-6 col-md-5 m-b-40 text-xs-center">
+								<h5>Support</h5>
+
+								<p class="m-b-20">Our goal is to offer you a level of support that<br />matches the attention to detail of our products.</p>
+
+								<ul class="footer-menu">
+									<li>
+										<i class="far fa-building"></i>&nbsp; 12 Rock Rd, VA 22066, USA
+									</li>
+									<li>
+										<i class="fas fa-mobile-alt"></i>&nbsp; <a href="">+1 0123-456.789</a>
+									</li>
+									<li>
+										<i class="far fa-envelope"></i>&nbsp; <a href="mailto:info@company.com">info@company.com</a>
+									</li>
+								</ul>
+							</div>
+
+							<div class="col-xs-12 col-sm-6 col-md-2 m-b-40 text-xs-center">
+								<h5>Company</h5>
+
+								<ul class="footer-menu">
+									<li>
+										<i class="fas fa-angle-right m-r-5 hidden-xs"></i> <a href="#">About</a>
+									</li>
+									<li>
+										<i class="fas fa-angle-right m-r-5 hidden-xs"></i> <a href="#">Technology</a>
+									</li>
+									<li>
+										<i class="fas fa-angle-right m-r-5 hidden-xs"></i> <a href="#">The Team</a>
+									</li>
+									<li>
+										<i class="fas fa-angle-right m-r-5 hidden-xs"></i> <a href="#">Blog</a>
+									</li>
+									<li>
+										<i class="fas fa-angle-right m-r-5 hidden-xs"></i> <a href="#">Careers</a>
+									</li>
+									<li>
+										<i class="fas fa-angle-right m-r-5 hidden-xs"></i> <a href="#">Contact</a>
+									</li>
+								</ul>
+							</div>
+
+							<div class="col-xs-12 col-sm-6 col-md-2 m-b-40 text-xs-center">
+								<h5>Services</h5>
+
+								<ul class="footer-menu">
+									<li>
+										<i class="fas fa-angle-right m-r-5 hidden-xs"></i> <a href="#">FAQ</a>
+									</li>
+									<li>
+										<i class="fas fa-angle-right m-r-5 hidden-xs"></i> <a href="#">Warranty</a>
+									</li>
+									<li>
+										<i class="fas fa-angle-right m-r-5 hidden-xs"></i> <a href="#">Payments</a>
+									</li>
+									<li>
+										<i class="fas fa-angle-right m-r-5 hidden-xs"></i> <a href="#">Shipping & Returns</a>
+									</li>
+									<li>
+										<i class="fas fa-angle-right m-r-5 hidden-xs"></i> <a href="#">Privacy Policy</a>
+									</li>
+									<li>
+										<i class="fas fa-angle-right m-r-5 hidden-xs"></i> <a href="#">Terms & Conditions</a>
+									</li>
+								</ul>
+							</div>
+
+							<div class="col-xs-12 col-sm-6 col-md-3 m-b-40 text-xs-center">
+								<h5>Newsletter</h5>
+
+								<p class="m-b-20">Join us to get news updates from us</p>
+
+								<form class="form-inline">
+									<div class="form-group">
+										<input type="text" name="subscribe" class="form-control" placeholder="Email" />
+									</div>
+
+									<button type="submit" class="btn btn-success btn-square">Join Us</button>
+								</form>
+
+								<ul class="footer-list m-t-30">
+									<li>
+										<a href="#"><i class="fab fa-facebook-square fa-2x"></i></a>
+									</li>
+									<li>
+										<a href="#"><i class="fab fa-google-plus-square fa-2x"></i></a>
+									</li>
+									<li>
+										<a href="#"><i class="fab fa-twitter-square fa-2x"></i></a>
+									</li>
+									<li>
+										<a href="#"><i class="fab fa-instagram fa-2x"></i></a>
+									</li>
+									<li>
+										<a href="#"><i class="fab fa-pinterest-square fa-2x"></i></a>
+									</li>
+									<li>
+										<a href="#"><i class="fab fa-linkedin fa-2x"></i></a>
+									</li>
+									<li>
+										<a href="#"><i class="fab fa-youtube-square fa-2x"></i></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-12 footer-line"></div>
+
+				<div class="col-sm-12 m-t-10">
+					<div class="container">
+						<div class="row">
+							<div class="col-xs-12 col-sm-6 text-xs-center">
+								<p>&copy; 2018 <a href="#">Staro</a>. All rights reserved.</p>
+							</div>
+
+							<div class="col-xs-12 col-sm-6 text-xs-center">
+								<ul class="footer-list pull-xs-none pull-right">
+									<li><i class="fab fa-cc-visa fa-2x"></i></li>
+									<li><i class="fab fa-cc-mastercard fa-2x"></i></li>
+									<li><i class="fab fa-cc-paypal fa-2x"></i></li>
+									<li><i class="fab fa-cc-apple-pay fa-2x"></i></li>
+									<li><i class="fab fa-cc-stripe fa-2x"></i></li>
+									<li class="hidden-xs"><i class="fab fa-cc-discover fa-2x"></i></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Footer -->
+	</div>
+	<!-- Content -->
+
+{% endblock %}
